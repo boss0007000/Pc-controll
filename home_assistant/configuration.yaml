@@ -337,13 +337,13 @@ button:
       
       playback_seek_forward_small_button:
         friendly_name: "Seek +5s"
-        icon_template: mdi:rewind-5
+        icon_template: mdi:fast-forward-5
         action:
           - action: rest_command.playback_seek_forward_small
       
       playback_seek_backward_small_button:
         friendly_name: "Seek -5s"
-        icon_template: mdi:fast-forward-5
+        icon_template: mdi:rewind-5
         action:
           - action: rest_command.playback_seek_backward_small
       
