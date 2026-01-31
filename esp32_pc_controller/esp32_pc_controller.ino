@@ -4,6 +4,10 @@
  * This sketch allows an ESP32 to control a Windows PC through serial communication.
  * It connects to Home Assistant via WiFi and exposes control entities.
  * 
+ * Configuration:
+ * 1. Copy config_example.h to config.h
+ * 2. Update WiFi credentials in the section below (or use config.h)
+ * 
  * Commands:
  * - PC_WAKE: Wake the PC
  * - PC_SLEEP: Put PC to sleep
@@ -24,6 +28,8 @@
 #include <ArduinoJson.h>
 
 // WiFi Configuration
+// IMPORTANT: Update these with your WiFi credentials
+// For better security, consider using config.h (see config_example.h)
 const char* WIFI_SSID = "YOUR_WIFI_SSID";
 const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
 
