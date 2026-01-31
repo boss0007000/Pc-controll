@@ -710,7 +710,10 @@ class PCController:
         return "VOLUME_DOWN executed"
     
     def mute_audio(self):
-        """Mute system audio"""
+        """Mute system audio
+        Note: Windows mute key is a toggle. This method presses the mute key,
+        which will mute if currently unmuted, or unmute if currently muted.
+        Provided as separate method for semantic API clarity."""
         print("Executing: Mute Audio")
         # Mute key (0xAD)
         windll.user32.keybd_event(0xAD, 0, 0, 0)
@@ -718,7 +721,10 @@ class PCController:
         return "MUTE_AUDIO executed"
     
     def unmute_audio(self):
-        """Unmute system audio (same as mute - it's a toggle)"""
+        """Unmute system audio
+        Note: Windows mute key is a toggle. This method presses the mute key,
+        which will unmute if currently muted, or mute if currently unmuted.
+        Provided as separate method for semantic API clarity."""
         print("Executing: Unmute Audio")
         # Mute key (0xAD) - toggles mute/unmute
         windll.user32.keybd_event(0xAD, 0, 0, 0)
@@ -726,7 +732,9 @@ class PCController:
         return "UNMUTE_AUDIO executed"
     
     def toggle_mute(self):
-        """Toggle mute/unmute"""
+        """Toggle mute/unmute
+        Note: This is the same as mute_audio and unmute_audio since the Windows
+        mute key is a toggle. All three methods provided for API clarity."""
         print("Executing: Toggle Mute")
         # Mute key (0xAD)
         windll.user32.keybd_event(0xAD, 0, 0, 0)
@@ -799,17 +807,21 @@ class PCController:
             return "BROWSER_TAB_UNMUTE failed - no browser found"
     
     def system_mute_all(self):
-        """Mute all system audio"""
+        """Mute all system audio
+        Note: Windows mute key is system-wide and is a toggle. This is the same
+        implementation as mute_audio but provided for semantic clarity in API."""
         print("Executing: System Mute All")
-        # Same as regular mute
+        # Same as regular mute - Windows mute key affects all system audio
         windll.user32.keybd_event(0xAD, 0, 0, 0)
         windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
         return "SYSTEM_MUTE_ALL executed"
     
     def system_audio_restore(self):
-        """Restore system audio"""
+        """Restore system audio
+        Note: Windows mute key is system-wide and is a toggle. This is the same
+        implementation as unmute_audio but provided for semantic clarity in API."""
         print("Executing: System Audio Restore")
-        # Same as unmute
+        # Same as unmute - Windows mute key affects all system audio
         windll.user32.keybd_event(0xAD, 0, 0, 0)
         windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
         return "SYSTEM_AUDIO_RESTORE executed"
@@ -865,7 +877,10 @@ class PCController:
             return "CAPTIONS_CYCLE_LANGUAGE failed - no browser found"
     
     def captions_size_increase(self):
-        """Increase caption size (browser zoom Ctrl++)"""
+        """Increase caption size using browser zoom (Ctrl++)
+        Note: This zooms the entire browser page, not just captions. However,
+        this effectively increases caption size along with all other content.
+        For platforms with dedicated caption size controls, use their native settings."""
         print("Executing: Captions Size Increase")
         browser_windows = self.find_browser_windows()
         
@@ -873,7 +888,7 @@ class PCController:
             hwnd = browser_windows[0][0]
             win32gui.SetForegroundWindow(hwnd)
             time.sleep(0.1)
-            # Ctrl++ to zoom in (increases caption size)
+            # Ctrl++ to zoom in (increases all page content including caption size)
             windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
             windll.user32.keybd_event(0xBB, 0, 0, 0)  # VK_OEM_PLUS
             windll.user32.keybd_event(0xBB, 0, win32con.KEYEVENTF_KEYUP, 0)
@@ -883,7 +898,10 @@ class PCController:
             return "CAPTIONS_SIZE_INCREASE failed - no browser found"
     
     def captions_size_decrease(self):
-        """Decrease caption size (browser zoom Ctrl+-)"""
+        """Decrease caption size using browser zoom (Ctrl+-)
+        Note: This zooms the entire browser page, not just captions. However,
+        this effectively decreases caption size along with all other content.
+        For platforms with dedicated caption size controls, use their native settings."""
         print("Executing: Captions Size Decrease")
         browser_windows = self.find_browser_windows()
         
@@ -891,7 +909,7 @@ class PCController:
             hwnd = browser_windows[0][0]
             win32gui.SetForegroundWindow(hwnd)
             time.sleep(0.1)
-            # Ctrl+- to zoom out (decreases caption size)
+            # Ctrl+- to zoom out (decreases all page content including caption size)
             windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
             windll.user32.keybd_event(0xBD, 0, 0, 0)  # VK_OEM_MINUS
             windll.user32.keybd_event(0xBD, 0, win32con.KEYEVENTF_KEYUP, 0)
