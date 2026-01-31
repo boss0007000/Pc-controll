@@ -81,6 +81,26 @@ class PCController:
         win32gui.EnumWindows(callback, browser_windows)
         return browser_windows
     
+    def get_monitor_info(self):
+        """Get information about all monitors (helper method to avoid code duplication)"""
+        monitors = []
+        
+        def monitor_enum_proc(hMonitor, hdcMonitor, lprcMonitor, dwData):
+            monitors.append({
+                'handle': hMonitor,
+                'left': lprcMonitor[0],
+                'top': lprcMonitor[1],
+                'right': lprcMonitor[2],
+                'bottom': lprcMonitor[3]
+            })
+            return True
+        
+        windll.user32.EnumDisplayMonitors(None, None, 
+            win32api.WINFUNCTYPE(win32con.BOOL, win32con.DWORD, win32con.DWORD, 
+                                 win32con.POINTER(win32con.RECT), win32con.LPARAM)(monitor_enum_proc), 0)
+        
+        return monitors
+    
     def browser_focus(self):
         """Focus the browser window"""
         print("Executing: Browser Focus")
@@ -105,21 +125,8 @@ class PCController:
         if browser_windows:
             hwnd = browser_windows[0][0]
             
-            # Get monitor info
-            monitors = []
-            def monitor_enum_proc(hMonitor, hdcMonitor, lprcMonitor, dwData):
-                monitors.append({
-                    'handle': hMonitor,
-                    'left': lprcMonitor[0],
-                    'top': lprcMonitor[1],
-                    'right': lprcMonitor[2],
-                    'bottom': lprcMonitor[3]
-                })
-                return True
-            
-            windll.user32.EnumDisplayMonitors(None, None, 
-                win32api.WINFUNCTYPE(win32con.BOOL, win32con.DWORD, win32con.DWORD, 
-                                     win32con.POINTER(win32con.RECT), win32con.LPARAM)(monitor_enum_proc), 0)
+            # Get monitor info using helper method
+            monitors = self.get_monitor_info()
             
             if len(monitors) > self.tv_monitor_index:
                 monitor = monitors[self.tv_monitor_index]
@@ -1229,7 +1236,9 @@ class PCController:
             return "YOUTUBE_SUBSCRIBE failed - no browser found"
     
     def skip_button_action(self):
-        """Generic skip action (Tab to button, then Enter) - works for Skip Ad, Skip Intro, Skip Recap"""
+        """Generic skip action (Tab to button, then Enter) - works for Skip Ad, Skip Intro, Skip Recap
+        Note: This uses 3 tabs to navigate to common skip button positions. Different sites
+        may require different tab counts. Adjust if needed for specific platforms."""
         print("Executing: Skip Button Action")
         browser_windows = self.find_browser_windows()
         
@@ -1237,7 +1246,7 @@ class PCController:
             hwnd = browser_windows[0][0]
             win32gui.SetForegroundWindow(hwnd)
             time.sleep(0.1)
-            # Press Tab to navigate to skip button (may need multiple tabs)
+            # Press Tab to navigate to skip button (3 times for common button positions)
             for _ in range(3):
                 windll.user32.keybd_event(win32con.VK_TAB, 0, 0, 0)
                 windll.user32.keybd_event(win32con.VK_TAB, 0, win32con.KEYEVENTF_KEYUP, 0)
@@ -1259,21 +1268,8 @@ class PCController:
         if browser_windows:
             hwnd = browser_windows[0][0]
             
-            # Get monitor info
-            monitors = []
-            def monitor_enum_proc(hMonitor, hdcMonitor, lprcMonitor, dwData):
-                monitors.append({
-                    'handle': hMonitor,
-                    'left': lprcMonitor[0],
-                    'top': lprcMonitor[1],
-                    'right': lprcMonitor[2],
-                    'bottom': lprcMonitor[3]
-                })
-                return True
-            
-            windll.user32.EnumDisplayMonitors(None, None, 
-                win32api.WINFUNCTYPE(win32con.BOOL, win32con.DWORD, win32con.DWORD, 
-                                     win32con.POINTER(win32con.RECT), win32con.LPARAM)(monitor_enum_proc), 0)
+            # Get monitor info using helper method
+            monitors = self.get_monitor_info()
             
             if len(monitors) > 0:
                 monitor = monitors[0]
@@ -1298,27 +1294,28 @@ class PCController:
     # Focus & Distraction Control Methods
     
     def focus_assist_enable(self):
-        """Enable Windows Focus Assist (Do Not Disturb)"""
+        """Enable Windows Focus Assist (Do Not Disturb)
+        Note: This is a placeholder implementation. Full Focus Assist control requires
+        Windows 10+ API access which is complex via Python. For basic notification control,
+        consider using Group Policy or Registry settings."""
         print("Executing: Enable Focus Assist")
         try:
-            # Use Windows API to enable Focus Assist
-            # This sets priority only mode (alarms only)
-            subprocess.run(['powershell', '-Command', 
-                          'Add-Type -AssemblyName System.Runtime.WindowsRuntime;' +
-                          '[Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null;'], 
-                          capture_output=True)
-            return "FOCUS_ASSIST_ENABLE executed"
+            # Note: Full Focus Assist API is not easily accessible via Python
+            # This is a simplified placeholder that acknowledges the limitation
+            return "FOCUS_ASSIST_ENABLE executed (limited implementation - consider using Windows settings)"
         except Exception as e:
             return f"FOCUS_ASSIST_ENABLE failed: {str(e)}"
     
     def focus_assist_disable(self):
-        """Disable Windows Focus Assist"""
+        """Disable Windows Focus Assist
+        Note: This is a placeholder implementation. Full Focus Assist control requires
+        Windows 10+ API access which is complex via Python. For basic notification control,
+        consider using Group Policy or Registry settings."""
         print("Executing: Disable Focus Assist")
         try:
-            subprocess.run(['powershell', '-Command', 
-                          'Add-Type -AssemblyName System.Runtime.WindowsRuntime;'], 
-                          capture_output=True)
-            return "FOCUS_ASSIST_DISABLE executed"
+            # Note: Full Focus Assist API is not easily accessible via Python
+            # This is a simplified placeholder that acknowledges the limitation
+            return "FOCUS_ASSIST_DISABLE executed (limited implementation - consider using Windows settings)"
         except Exception as e:
             return f"FOCUS_ASSIST_DISABLE failed: {str(e)}"
     
@@ -1326,8 +1323,14 @@ class PCController:
         """Prevent screen from sleeping"""
         print("Executing: Prevent Sleep")
         try:
-            # ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED
-            windll.kernel32.SetThreadExecutionState(0x80000003)
+            # SetThreadExecutionState flags:
+            # ES_CONTINUOUS = 0x80000000 - Informs system that the setting should remain in effect
+            # ES_DISPLAY_REQUIRED = 0x00000002 - Forces the display to be on
+            # ES_SYSTEM_REQUIRED = 0x00000001 - Forces the system to be in working state
+            ES_CONTINUOUS = 0x80000000
+            ES_DISPLAY_REQUIRED = 0x00000002
+            ES_SYSTEM_REQUIRED = 0x00000001
+            windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED | ES_SYSTEM_REQUIRED)
             return "PREVENT_SLEEP executed"
         except Exception as e:
             return f"PREVENT_SLEEP failed: {str(e)}"
@@ -1336,8 +1339,9 @@ class PCController:
         """Allow screen to sleep normally"""
         print("Executing: Allow Sleep")
         try:
-            # ES_CONTINUOUS (reset to normal)
-            windll.kernel32.SetThreadExecutionState(0x80000000)
+            # ES_CONTINUOUS = 0x80000000 - Reset to normal power management
+            ES_CONTINUOUS = 0x80000000
+            windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS)
             return "ALLOW_SLEEP executed"
         except Exception as e:
             return f"ALLOW_SLEEP failed: {str(e)}"
