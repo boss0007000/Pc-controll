@@ -87,6 +87,54 @@ System-wide and browser-specific audio controls:
 - **Increase Caption Size** - Zoom in to make captions larger
 - **Decrease Caption Size** - Zoom out to make captions smaller
 
+### ✅ Navigation Control (Keyboard-Based)
+- **Select Element** - Activate focused element (Enter key)
+- **Navigate Back** - Go to previous page (Alt+Left)
+- **Navigate Forward** - Go to next page (Alt+Right)
+- **Exit Menu** - Close menus and overlays (Escape)
+- **Scroll Up/Down** - Scroll page content (Arrow keys)
+- **Page Up/Down** - Quick page navigation
+- **Focus Search** - Move to address/search bar (Ctrl+L)
+- **Clear Search** - Clear text in search field
+- **Submit Search** - Submit search or form (Enter)
+- **Tab Forward** - Navigate between elements (Tab key)
+
+### ✅ Search & Content Discovery
+- **Search YouTube** - Search YouTube for any query
+- **Search Hulu** - Search Hulu for any query
+- **Search Current Site** - Find in page (Ctrl+F)
+- **Open YouTube Trending** - Browse trending videos
+- **Open YouTube Subscriptions** - View subscription feed
+- **Open Hulu Watchlist** - Access "My Stuff" watchlist
+- **Open YouTube History** - View watch history
+- **Open Netflix Home** - Navigate to Netflix browse
+
+### ✅ User Interaction (Site-Specific)
+- **Like Video** - Like YouTube videos (Shift+L)
+- **Dislike Video** - Dislike YouTube videos (Shift+D)
+- **Subscribe** - Subscribe to YouTube channels (Shift+S)
+- **Skip Button Action** - Skip ads, intros, and recaps (Tab + Enter)
+
+### ✅ Multi-Monitor Control
+- **Move to Monitor 1** - Move browser to primary monitor
+- **Move to Monitor 2** - Move browser to secondary monitor/TV
+- Dual monitor support for dedicated viewing experiences
+
+### ✅ Focus & Distraction Control
+- **Enable Focus Assist** - Turn on Do Not Disturb mode
+- **Disable Focus Assist** - Turn off Do Not Disturb mode
+- **Prevent Sleep** - Keep screen active (no sleep)
+- **Allow Sleep** - Allow normal screen sleep behavior
+
+### ✅ Smart Convenience Commands
+Pre-configured sequences for common tasks:
+- **Show Me Something** - Open homepage/feed
+- **Continue Last** - Resume previous session
+- **Find Else** - Reload recommendations
+- **That's Enough** - Pause and exit fullscreen
+- **Kill Playback** - Stop, exit fullscreen, minimize
+- **Emergency Mute** - Instant system-wide mute
+
 ### ✅ Home Assistant Integration
 - REST API endpoints for all commands
 - Button entities for dashboard control

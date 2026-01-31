@@ -76,6 +76,48 @@ System and browser audio controls:
 - **Increase Caption Size** - Zoom in to make captions larger
 - **Decrease Caption Size** - Zoom out to make captions smaller
 
+### Navigation Control (Keyboard-Based)
+- **Select Element** - Activate focused element (Enter)
+- **Navigate Back/Forward** - Browser history navigation (Alt+Arrow keys)
+- **Exit Menu** - Close overlays (Escape)
+- **Scroll Up/Down** - Scroll page content (Arrow keys)
+- **Page Up/Down** - Quick page navigation
+- **Focus Search Bar** - Jump to address bar (Ctrl+L)
+- **Clear Search** - Clear text field
+- **Submit Search** - Submit form (Enter)
+- **Tab Forward** - Navigate elements (Tab key)
+
+### Search & Content Discovery
+- **Search YouTube** - Search YouTube with query
+- **Search Hulu** - Search Hulu with query
+- **Search Current Site** - Find in page (Ctrl+F)
+- **Open YouTube Trending** - Browse trending
+- **Open YouTube Subscriptions** - Subscription feed
+- **Open Hulu Watchlist** - Access watchlist
+- **Open YouTube History** - Watch history
+- **Open Netflix Home** - Netflix browse page
+
+### User Interaction (Site-Specific)
+- **Like/Dislike Video** - YouTube video rating
+- **Subscribe** - YouTube channel subscription
+- **Skip Button Action** - Skip ads/intros/recaps
+
+### Multi-Monitor Control
+- **Move to Monitor 1/2** - Move browser between displays
+- **Dual Monitor Support** - Primary and secondary display control
+
+### Focus & Distraction Control
+- **Enable/Disable Focus Assist** - Windows Do Not Disturb
+- **Prevent/Allow Sleep** - Screen sleep management
+
+### Smart Convenience Commands
+- **Show Me Something** - Open homepage
+- **Continue Last** - Resume session
+- **Find Else** - Reload recommendations
+- **That's Enough** - Pause + exit fullscreen
+- **Kill Playback** - Full stop + minimize
+- **Emergency Mute** - Instant mute all
+
 ## Hardware Requirements
 
 - ESP32 development board (any variant)
@@ -271,6 +313,42 @@ curl -X POST -d "url=https://www.netflix.com" http://esp32-pc-controller.local/b
 | `/captions/cycle-language` | POST | Cycle caption languages |
 | `/captions/size-increase` | POST | Increase caption size |
 | `/captions/size-decrease` | POST | Decrease caption size |
+| `/nav/select` | POST | Select focused element |
+| `/nav/back` | POST | Navigate back |
+| `/nav/forward` | POST | Navigate forward |
+| `/nav/exit-menu` | POST | Exit menu/close overlay |
+| `/nav/scroll-up` | POST | Scroll page up |
+| `/nav/scroll-down` | POST | Scroll page down |
+| `/nav/page-up` | POST | Page up |
+| `/nav/page-down` | POST | Page down |
+| `/nav/focus-search` | POST | Focus search bar |
+| `/nav/clear-search` | POST | Clear search field |
+| `/nav/submit-search` | POST | Submit search |
+| `/nav/tab-forward` | POST | Tab forward |
+| `/search/youtube` | POST | Search YouTube (param: `query`) |
+| `/search/hulu` | POST | Search Hulu (param: `query`) |
+| `/search/current-site` | POST | Search current site |
+| `/content/youtube-trending` | POST | Open YouTube trending |
+| `/content/youtube-subscriptions` | POST | Open YouTube subscriptions |
+| `/content/hulu-watchlist` | POST | Open Hulu watchlist |
+| `/content/youtube-history` | POST | Open YouTube history |
+| `/content/netflix-home` | POST | Open Netflix home |
+| `/youtube/like` | POST | Like YouTube video |
+| `/youtube/dislike` | POST | Dislike YouTube video |
+| `/youtube/subscribe` | POST | Subscribe to YouTube channel |
+| `/action/skip` | POST | Skip button action |
+| `/browser/move-monitor-1` | POST | Move browser to monitor 1 |
+| `/browser/move-monitor-2` | POST | Move browser to monitor 2 |
+| `/focus/assist-enable` | POST | Enable Focus Assist |
+| `/focus/assist-disable` | POST | Disable Focus Assist |
+| `/sleep/prevent` | POST | Prevent screen sleep |
+| `/sleep/allow` | POST | Allow screen sleep |
+| `/smart/show-something` | POST | Open homepage/feed |
+| `/smart/continue-last` | POST | Resume last session |
+| `/smart/find-else` | POST | Reload recommendations |
+| `/smart/thats-enough` | POST | Pause and exit fullscreen |
+| `/smart/kill-playback` | POST | Stop and minimize |
+| `/smart/emergency-mute` | POST | Emergency mute all |
 | `/command` | POST | Send custom command (param: `cmd`) |
 
 ## Architecture
