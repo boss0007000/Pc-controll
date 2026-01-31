@@ -1,0 +1,328 @@
+# Example Home Assistant Automations
+
+# Copy these to your automations.yaml or use the automation editor in Home Assistant
+
+# ============================================
+# MORNING ROUTINE
+# ============================================
+
+# Wake PC and prepare for work
+- alias: "Morning Work Routine"
+  description: "Wake PC, turn on display, and open browser in the morning"
+  trigger:
+    - platform: time
+      at: "07:00:00"
+  condition:
+    - condition: state
+      entity_id: person.you  # Replace with your person entity
+      state: "home"
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - action: rest_command.pc_wake
+      data: {}
+    - delay:
+        seconds: 30
+    - action: rest_command.display_on
+      data: {}
+    - delay:
+        seconds: 5
+    - action: rest_command.browser_restore
+      data: {}
+
+# ============================================
+# BEDTIME ROUTINE
+# ============================================
+
+# Put PC to sleep at night
+- alias: "Bedtime PC Sleep"
+  description: "Close browser and put PC to sleep at bedtime"
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  action:
+    - action: rest_command.browser_close
+      data: {}
+    - delay:
+        seconds: 5
+    - action: rest_command.pc_sleep
+      data: {}
+
+# ============================================
+# PRESENCE DETECTION
+# ============================================
+
+# Turn off display when leaving home
+- alias: "Display Off When Leaving"
+  description: "Turn off display when last person leaves home"
+  trigger:
+    - platform: state
+      entity_id: zone.home
+      to: "0"  # No one home
+  action:
+    - action: rest_command.display_off
+      data: {}
+
+# Turn on display when arriving home
+- alias: "Display On When Arriving"
+  description: "Turn on display when someone arrives home"
+  trigger:
+    - platform: state
+      entity_id: person.you  # Replace with your person entity
+      to: "home"
+  condition:
+    - condition: time
+      after: "06:00:00"
+      before: "23:00:00"
+  action:
+    - action: rest_command.display_on
+      data: {}
+
+# ============================================
+# MEDIA CONTROL
+# ============================================
+
+# Movie mode - Move browser to TV and maximize
+- alias: "Movie Mode Activated"
+  description: "Prepare browser for movie watching on TV"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.movie_mode  # Create this helper first
+      to: "on"
+  action:
+    - action: rest_command.browser_focus
+      data: {}
+    - delay:
+        seconds: 2
+    - action: rest_command.browser_move_tv
+      data: {}
+    - delay:
+        seconds: 1
+    - action: rest_command.browser_maximize
+      data: {}
+
+# Exit movie mode - Minimize browser
+- alias: "Movie Mode Deactivated"
+  description: "Minimize browser when leaving movie mode"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.movie_mode
+      to: "off"
+  action:
+    - action: rest_command.browser_minimize
+      data: {}
+
+# ============================================
+# ENERGY SAVING
+# ============================================
+
+# Turn off display after inactivity
+- alias: "Display Off After Inactivity"
+  description: "Turn off display if no motion detected for 30 minutes"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.office_motion  # Replace with your motion sensor
+      to: "off"
+      for:
+        minutes: 30
+  condition:
+    - condition: time
+      after: "08:00:00"
+      before: "22:00:00"
+  action:
+    - action: rest_command.display_off
+      data: {}
+
+# Wake display on motion
+- alias: "Display On With Motion"
+  description: "Turn on display when motion detected"
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.office_motion
+      to: "on"
+  action:
+    - action: rest_command.display_on
+      data: {}
+
+# Sleep PC at night if no one home
+- alias: "Sleep PC When Away at Night"
+  description: "Put PC to sleep if no one is home after 11 PM"
+  trigger:
+    - platform: time
+      at: "23:00:00"
+  condition:
+    - condition: state
+      entity_id: zone.home
+      state: "0"  # No one home
+  action:
+    - action: rest_command.pc_sleep
+      data: {}
+
+# ============================================
+# WORK FROM HOME
+# ============================================
+
+# Start work mode
+- alias: "Start Work Mode"
+  description: "Prepare PC for work when work mode is activated"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.work_mode  # Create this helper first
+      to: "on"
+  action:
+    - action: rest_command.pc_wake
+      data: {}
+    - delay:
+        seconds: 30
+    - action: rest_command.display_on
+      data: {}
+    - delay:
+        seconds: 5
+    - action: rest_command.browser_focus
+      data: {}
+    - action: rest_command.browser_maximize
+      data: {}
+
+# End work mode
+- alias: "End Work Mode"
+  description: "Minimize browser when work mode ends"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.work_mode
+      to: "off"
+  action:
+    - action: rest_command.browser_minimize
+      data: {}
+
+# ============================================
+# MEETING AUTOMATION
+# ============================================
+
+# Focus browser for video meeting
+- alias: "Prepare for Video Meeting"
+  description: "Focus and maximize browser for video calls"
+  trigger:
+    - platform: state
+      entity_id: calendar.work_calendar  # Replace with your calendar
+      to: "on"
+  condition:
+    - condition: template
+      value_template: "{{ 'meeting' in state_attr('calendar.work_calendar', 'message').lower() }}"
+  action:
+    - action: rest_command.browser_focus
+      data: {}
+    - delay:
+        seconds: 1
+    - action: rest_command.browser_maximize
+      data: {}
+
+# ============================================
+# BUTTON/SWITCH TRIGGERS
+# ============================================
+
+# Quick wake button
+- alias: "Quick Wake Button"
+  description: "Wake PC and display with button press"
+  trigger:
+    - platform: state
+      entity_id: input_button.wake_pc  # Create this helper first
+  action:
+    - action: rest_command.pc_wake
+      data: {}
+    - delay:
+        seconds: 5
+    - action: rest_command.display_on
+      data: {}
+
+# Quick sleep button
+- alias: "Quick Sleep Button"
+  description: "Put PC to sleep with button press"
+  trigger:
+    - platform: state
+      entity_id: input_button.sleep_pc  # Create this helper first
+  action:
+    - action: rest_command.pc_sleep
+      data: {}
+
+# ============================================
+# VOICE ASSISTANT INTEGRATION
+# ============================================
+
+# Voice command: "Turn on my PC"
+- alias: "Voice - Turn On PC"
+  description: "Wake PC via voice command"
+  trigger:
+    - platform: conversation
+      command:
+        - "turn on [my] [the] PC"
+        - "wake [my] [the] computer"
+  action:
+    - action: rest_command.pc_wake
+      data: {}
+    - action: rest_command.display_on
+      data: {}
+    - action: tts.google_translate_say
+      data:
+        entity_id: media_player.your_speaker  # Replace with your speaker
+        message: "Waking up your PC"
+
+# Voice command: "Put PC to sleep"
+- alias: "Voice - Sleep PC"
+  description: "Sleep PC via voice command"
+  trigger:
+    - platform: conversation
+      command:
+        - "put [my] [the] PC to sleep"
+        - "sleep [my] [the] computer"
+  action:
+    - action: rest_command.pc_sleep
+      data: {}
+    - action: tts.google_translate_say
+      data:
+        entity_id: media_player.your_speaker
+        message: "Putting your PC to sleep"
+
+# ============================================
+# ADVANCED SCENARIOS
+# ============================================
+
+# Gaming mode - Wake everything
+- alias: "Gaming Mode"
+  description: "Prepare PC for gaming session"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.gaming_mode  # Create this helper first
+      to: "on"
+  action:
+    - action: rest_command.pc_wake
+      data: {}
+    - delay:
+        seconds: 30
+    - action: rest_command.display_on
+      data: {}
+    - action: rest_command.browser_close
+      data: {}  # Close browser to free resources
+
+# Presentation mode - Move to TV
+- alias: "Presentation Mode"
+  description: "Move browser to TV for presentations"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.presentation_mode  # Create this helper first
+      to: "on"
+  action:
+    - action: rest_command.browser_focus
+      data: {}
+    - delay:
+        seconds: 2
+    - action: rest_command.browser_move_tv
+      data: {}
+    - delay:
+        seconds: 1
+    - action: rest_command.browser_maximize
+      data: {}

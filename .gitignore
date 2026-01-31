@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Arduino/PlatformIO
+.pio/
+.vscode/
+.pioenvs/
+.piolibdeps/
+lib/
+.clang_complete
+.gcc-flags.json
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Configuration files with credentials
+config_local.h
+secrets.yaml
+secrets.yml
+
+# Temporary files
+*.tmp
+*.bak
+.cache/
+
+# Build artifacts
+*.bin
+*.elf
+*.hex
+
+# OS specific
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
