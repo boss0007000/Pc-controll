@@ -58,6 +58,35 @@ Works seamlessly on YouTube, Netflix, Hulu, Prime Video, Disney+, and other stre
 - **Next Video** - Play next video in playlist/queue
 - **Previous Video** - Play previous video in playlist
 
+### ✅ Fullscreen & View Modes
+- **Enter Fullscreen** - Enter fullscreen mode (F11)
+- **Exit Fullscreen** - Exit fullscreen mode (Escape)
+- **Toggle Fullscreen** - Toggle fullscreen on/off
+- **Theater Mode** - Enter YouTube theater mode
+- **Exit Theater Mode** - Exit YouTube theater mode
+- **Picture-in-Picture Enter** - Enter PiP mode
+- **Picture-in-Picture Exit** - Exit PiP mode
+
+### ✅ Audio Control (OS + Browser)
+System-wide and browser-specific audio controls:
+- **Volume Up** - Increase system volume
+- **Volume Down** - Decrease system volume
+- **Mute Audio** - Mute system audio
+- **Unmute Audio** - Unmute system audio
+- **Toggle Mute** - Toggle mute/unmute state
+- **Set Volume** - Set volume to predefined levels (25%, 50%, 75%, 100%)
+- **Mute Browser Tab** - Mute video in browser tab (M key)
+- **Unmute Browser Tab** - Unmute video in browser tab
+- **Mute System Audio** - Mute all system audio
+- **Restore System Audio** - Restore/unmute all system audio
+
+### ✅ Subtitles & Captions
+- **Toggle Captions On** - Enable captions (C key)
+- **Toggle Captions Off** - Disable captions
+- **Cycle Caption Language** - Open caption settings menu
+- **Increase Caption Size** - Zoom in to make captions larger
+- **Decrease Caption Size** - Zoom out to make captions smaller
+
 ### ✅ Home Assistant Integration
 - REST API endpoints for all commands
 - Button entities for dashboard control
@@ -109,6 +138,7 @@ Evening Routine:
 Movie Mode:
   - Focus browser
   - Move to TV display
+  - Enter fullscreen mode
   - Maximize for full-screen
   - Perfect for streaming
 
@@ -118,6 +148,21 @@ Video Playback:
   - Jump to beginning or end
   - Navigate playlists
   - Stop and exit fullscreen
+  - Enter/exit theater mode
+  - Picture-in-picture mode
+  
+Audio Control:
+  - Volume up/down
+  - Mute/unmute system audio
+  - Mute browser tab for videos
+  - Set volume to specific levels
+  - Toggle mute quickly
+  
+Accessibility:
+  - Enable/disable captions
+  - Cycle caption languages
+  - Adjust caption size
+  - Better viewing experience
   
 Quick Access:
   - Open YouTube with one click

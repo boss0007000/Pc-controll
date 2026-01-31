@@ -47,6 +47,35 @@ Works on YouTube, Hulu, Netflix, Prime Video, and other streaming platforms:
 - **Next Video** - Next video in playlist/autoplay
 - **Previous Video** - Previous video in playlist
 
+### Fullscreen & View Modes
+- **Enter Fullscreen** - Enter fullscreen mode (F11)
+- **Exit Fullscreen** - Exit fullscreen mode (Escape)
+- **Toggle Fullscreen** - Toggle fullscreen on/off (F11)
+- **Theater Mode** - Enter YouTube theater mode (T key)
+- **Exit Theater Mode** - Exit YouTube theater mode
+- **Picture-in-Picture Enter** - Enter PiP mode
+- **Picture-in-Picture Exit** - Exit PiP mode
+
+### Audio Control
+System and browser audio controls:
+- **Volume Up** - Increase system volume
+- **Volume Down** - Decrease system volume
+- **Mute Audio** - Mute system audio
+- **Unmute Audio** - Unmute system audio
+- **Toggle Mute** - Toggle mute/unmute
+- **Set Volume** - Set volume to 25%, 50%, 75%, or 100%
+- **Mute Browser Tab** - Mute video in browser (M key)
+- **Unmute Browser Tab** - Unmute video in browser
+- **Mute System Audio** - Mute all system audio
+- **Restore System Audio** - Unmute all system audio
+
+### Subtitles & Captions
+- **Toggle Captions On** - Enable captions (C key)
+- **Toggle Captions Off** - Disable captions
+- **Cycle Caption Language** - Open caption settings (YouTube O key)
+- **Increase Caption Size** - Zoom in to make captions larger
+- **Decrease Caption Size** - Zoom out to make captions smaller
+
 ## Hardware Requirements
 
 - ESP32 development board (any variant)
@@ -220,6 +249,28 @@ curl -X POST -d "url=https://www.netflix.com" http://esp32-pc-controller.local/b
 | `/playback/jump-to-end` | POST | Jump to video end |
 | `/playback/next-video` | POST | Next video in playlist |
 | `/playback/previous-video` | POST | Previous video in playlist |
+| `/fullscreen/enter` | POST | Enter fullscreen mode |
+| `/fullscreen/exit` | POST | Exit fullscreen mode |
+| `/fullscreen/toggle` | POST | Toggle fullscreen |
+| `/theater-mode` | POST | Enter theater mode (YouTube) |
+| `/theater-mode/exit` | POST | Exit theater mode |
+| `/picture-in-picture/enter` | POST | Enter picture-in-picture |
+| `/picture-in-picture/exit` | POST | Exit picture-in-picture |
+| `/audio/volume-up` | POST | Increase system volume |
+| `/audio/volume-down` | POST | Decrease system volume |
+| `/audio/mute` | POST | Mute system audio |
+| `/audio/unmute` | POST | Unmute system audio |
+| `/audio/toggle-mute` | POST | Toggle mute/unmute |
+| `/audio/volume-set` | POST | Set volume level (param: `level`) |
+| `/audio/browser-tab-mute` | POST | Mute browser tab |
+| `/audio/browser-tab-unmute` | POST | Unmute browser tab |
+| `/audio/system-mute-all` | POST | Mute all system audio |
+| `/audio/system-audio-restore` | POST | Restore system audio |
+| `/captions/toggle-on` | POST | Toggle captions on |
+| `/captions/toggle-off` | POST | Toggle captions off |
+| `/captions/cycle-language` | POST | Cycle caption languages |
+| `/captions/size-increase` | POST | Increase caption size |
+| `/captions/size-decrease` | POST | Decrease caption size |
 | `/command` | POST | Send custom command (param: `cmd`) |
 
 ## Architecture

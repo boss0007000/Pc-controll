@@ -572,6 +572,351 @@ class PCController:
             return "PLAYBACK_PREVIOUS_VIDEO executed"
         else:
             return "PLAYBACK_PREVIOUS_VIDEO failed - no browser found"
+    
+    # Fullscreen & View Mode Controls
+    
+    def fullscreen_enter(self):
+        """Enter fullscreen mode (F11)"""
+        print("Executing: Fullscreen Enter")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # F11 key to enter fullscreen
+            windll.user32.keybd_event(win32con.VK_F11, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_F11, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "FULLSCREEN_ENTER executed"
+        else:
+            return "FULLSCREEN_ENTER failed - no browser found"
+    
+    def fullscreen_exit(self):
+        """Exit fullscreen mode (Escape)"""
+        print("Executing: Fullscreen Exit")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Escape key to exit fullscreen
+            windll.user32.keybd_event(win32con.VK_ESCAPE, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_ESCAPE, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "FULLSCREEN_EXIT executed"
+        else:
+            return "FULLSCREEN_EXIT failed - no browser found"
+    
+    def fullscreen_toggle(self):
+        """Toggle fullscreen mode (F11)"""
+        print("Executing: Fullscreen Toggle")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # F11 key to toggle fullscreen
+            windll.user32.keybd_event(win32con.VK_F11, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_F11, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "FULLSCREEN_TOGGLE executed"
+        else:
+            return "FULLSCREEN_TOGGLE failed - no browser found"
+    
+    def theater_mode(self):
+        """Enter theater mode (T key for YouTube)"""
+        print("Executing: Theater Mode")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # T key for YouTube theater mode
+            windll.user32.keybd_event(ord('T'), 0, 0, 0)
+            windll.user32.keybd_event(ord('T'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "THEATER_MODE executed"
+        else:
+            return "THEATER_MODE failed - no browser found"
+    
+    def theater_mode_exit(self):
+        """Exit theater mode (T key again for YouTube)"""
+        print("Executing: Theater Mode Exit")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # T key to exit theater mode
+            windll.user32.keybd_event(ord('T'), 0, 0, 0)
+            windll.user32.keybd_event(ord('T'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "THEATER_MODE_EXIT executed"
+        else:
+            return "THEATER_MODE_EXIT failed - no browser found"
+    
+    def picture_in_picture_enter(self):
+        """Enter picture-in-picture mode (browser-specific shortcuts)"""
+        print("Executing: Picture-in-Picture Enter")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Alt+P for picture-in-picture (works in most browsers)
+            windll.user32.keybd_event(win32con.VK_MENU, 0, 0, 0)  # Alt
+            windll.user32.keybd_event(ord('P'), 0, 0, 0)
+            windll.user32.keybd_event(ord('P'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PICTURE_IN_PICTURE_ENTER executed"
+        else:
+            return "PICTURE_IN_PICTURE_ENTER failed - no browser found"
+    
+    def picture_in_picture_exit(self):
+        """Exit picture-in-picture mode"""
+        print("Executing: Picture-in-Picture Exit")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Alt+P again to exit picture-in-picture
+            windll.user32.keybd_event(win32con.VK_MENU, 0, 0, 0)  # Alt
+            windll.user32.keybd_event(ord('P'), 0, 0, 0)
+            windll.user32.keybd_event(ord('P'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PICTURE_IN_PICTURE_EXIT executed"
+        else:
+            return "PICTURE_IN_PICTURE_EXIT failed - no browser found"
+    
+    # Audio Control Methods
+    
+    def volume_up(self):
+        """Increase system volume"""
+        print("Executing: Volume Up")
+        # Volume Up key (0xAF)
+        windll.user32.keybd_event(0xAF, 0, 0, 0)
+        windll.user32.keybd_event(0xAF, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "VOLUME_UP executed"
+    
+    def volume_down(self):
+        """Decrease system volume"""
+        print("Executing: Volume Down")
+        # Volume Down key (0xAE)
+        windll.user32.keybd_event(0xAE, 0, 0, 0)
+        windll.user32.keybd_event(0xAE, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "VOLUME_DOWN executed"
+    
+    def mute_audio(self):
+        """Mute system audio
+        Note: Windows mute key is a toggle. This method presses the mute key,
+        which will mute if currently unmuted, or unmute if currently muted.
+        Provided as separate method for semantic API clarity."""
+        print("Executing: Mute Audio")
+        # Mute key (0xAD)
+        windll.user32.keybd_event(0xAD, 0, 0, 0)
+        windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "MUTE_AUDIO executed"
+    
+    def unmute_audio(self):
+        """Unmute system audio
+        Note: Windows mute key is a toggle. This method presses the mute key,
+        which will unmute if currently muted, or mute if currently unmuted.
+        Provided as separate method for semantic API clarity."""
+        print("Executing: Unmute Audio")
+        # Mute key (0xAD) - toggles mute/unmute
+        windll.user32.keybd_event(0xAD, 0, 0, 0)
+        windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "UNMUTE_AUDIO executed"
+    
+    def toggle_mute(self):
+        """Toggle mute/unmute
+        Note: This is the same as mute_audio and unmute_audio since the Windows
+        mute key is a toggle. All three methods provided for API clarity."""
+        print("Executing: Toggle Mute")
+        # Mute key (0xAD)
+        windll.user32.keybd_event(0xAD, 0, 0, 0)
+        windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "TOGGLE_MUTE executed"
+    
+    def volume_set(self, level):
+        """Set volume to predefined level (25, 50, 75, 100)"""
+        print(f"Executing: Set Volume to {level}%")
+        try:
+            # First, mute to get a baseline
+            windll.user32.keybd_event(0xAD, 0, 0, 0)
+            windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+            time.sleep(0.2)
+            # Unmute
+            windll.user32.keybd_event(0xAD, 0, 0, 0)
+            windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+            time.sleep(0.2)
+            
+            # Calculate number of volume down presses to reach 0
+            # Then calculate up presses to reach target
+            # Press volume down 50 times to ensure we're at 0
+            for _ in range(50):
+                windll.user32.keybd_event(0xAE, 0, 0, 0)
+                windll.user32.keybd_event(0xAE, 0, win32con.KEYEVENTF_KEYUP, 0)
+                time.sleep(0.01)
+            
+            # Now press volume up to reach desired level
+            # Each press is typically 2%, so level/2 presses
+            presses = int(level / 2)
+            for _ in range(presses):
+                windll.user32.keybd_event(0xAF, 0, 0, 0)
+                windll.user32.keybd_event(0xAF, 0, win32con.KEYEVENTF_KEYUP, 0)
+                time.sleep(0.01)
+            
+            return f"VOLUME_SET executed: {level}%"
+        except Exception as e:
+            return f"VOLUME_SET failed: {str(e)}"
+    
+    def browser_tab_mute(self):
+        """Mute browser tab (M key in YouTube and other video players)"""
+        print("Executing: Browser Tab Mute")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # M key to mute video in most video players
+            windll.user32.keybd_event(ord('M'), 0, 0, 0)
+            windll.user32.keybd_event(ord('M'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_TAB_MUTE executed"
+        else:
+            return "BROWSER_TAB_MUTE failed - no browser found"
+    
+    def browser_tab_unmute(self):
+        """Unmute browser tab (M key again)"""
+        print("Executing: Browser Tab Unmute")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # M key to unmute video
+            windll.user32.keybd_event(ord('M'), 0, 0, 0)
+            windll.user32.keybd_event(ord('M'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_TAB_UNMUTE executed"
+        else:
+            return "BROWSER_TAB_UNMUTE failed - no browser found"
+    
+    def system_mute_all(self):
+        """Mute all system audio
+        Note: Windows mute key is system-wide and is a toggle. This is the same
+        implementation as mute_audio but provided for semantic clarity in API."""
+        print("Executing: System Mute All")
+        # Same as regular mute - Windows mute key affects all system audio
+        windll.user32.keybd_event(0xAD, 0, 0, 0)
+        windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "SYSTEM_MUTE_ALL executed"
+    
+    def system_audio_restore(self):
+        """Restore system audio
+        Note: Windows mute key is system-wide and is a toggle. This is the same
+        implementation as unmute_audio but provided for semantic clarity in API."""
+        print("Executing: System Audio Restore")
+        # Same as unmute - Windows mute key affects all system audio
+        windll.user32.keybd_event(0xAD, 0, 0, 0)
+        windll.user32.keybd_event(0xAD, 0, win32con.KEYEVENTF_KEYUP, 0)
+        return "SYSTEM_AUDIO_RESTORE executed"
+    
+    # Subtitles/Captions Control Methods
+    
+    def captions_toggle_on(self):
+        """Toggle captions on (C key for YouTube and many video players)"""
+        print("Executing: Captions Toggle On")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # C key to toggle captions
+            windll.user32.keybd_event(ord('C'), 0, 0, 0)
+            windll.user32.keybd_event(ord('C'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "CAPTIONS_TOGGLE_ON executed"
+        else:
+            return "CAPTIONS_TOGGLE_ON failed - no browser found"
+    
+    def captions_toggle_off(self):
+        """Toggle captions off (C key again)"""
+        print("Executing: Captions Toggle Off")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # C key to toggle captions off
+            windll.user32.keybd_event(ord('C'), 0, 0, 0)
+            windll.user32.keybd_event(ord('C'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "CAPTIONS_TOGGLE_OFF executed"
+        else:
+            return "CAPTIONS_TOGGLE_OFF failed - no browser found"
+    
+    def captions_cycle_language(self):
+        """Cycle caption languages (site dependent - opens settings on YouTube with O key)"""
+        print("Executing: Captions Cycle Language")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # O key opens settings menu in YouTube where captions can be changed
+            windll.user32.keybd_event(ord('O'), 0, 0, 0)
+            windll.user32.keybd_event(ord('O'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "CAPTIONS_CYCLE_LANGUAGE executed (opened settings)"
+        else:
+            return "CAPTIONS_CYCLE_LANGUAGE failed - no browser found"
+    
+    def captions_size_increase(self):
+        """Increase caption size using browser zoom (Ctrl++)
+        Note: This zooms the entire browser page, not just captions. However,
+        this effectively increases caption size along with all other content.
+        For platforms with dedicated caption size controls, use their native settings."""
+        print("Executing: Captions Size Increase")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Ctrl++ to zoom in (increases all page content including caption size)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(0xBB, 0, 0, 0)  # VK_OEM_PLUS
+            windll.user32.keybd_event(0xBB, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "CAPTIONS_SIZE_INCREASE executed"
+        else:
+            return "CAPTIONS_SIZE_INCREASE failed - no browser found"
+    
+    def captions_size_decrease(self):
+        """Decrease caption size using browser zoom (Ctrl+-)
+        Note: This zooms the entire browser page, not just captions. However,
+        this effectively decreases caption size along with all other content.
+        For platforms with dedicated caption size controls, use their native settings."""
+        print("Executing: Captions Size Decrease")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Ctrl+- to zoom out (decreases all page content including caption size)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(0xBD, 0, 0, 0)  # VK_OEM_MINUS
+            windll.user32.keybd_event(0xBD, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "CAPTIONS_SIZE_DECREASE executed"
+        else:
+            return "CAPTIONS_SIZE_DECREASE failed - no browser found"
 
 def main():
     parser = argparse.ArgumentParser(description='PC Controller - Windows Companion Script')
@@ -619,6 +964,30 @@ def main():
         'PLAYBACK_JUMP_TO_END': controller.playback_jump_to_end,
         'PLAYBACK_NEXT_VIDEO': controller.playback_next_video,
         'PLAYBACK_PREVIOUS_VIDEO': controller.playback_previous_video,
+        # Fullscreen & View Mode Commands
+        'FULLSCREEN_ENTER': controller.fullscreen_enter,
+        'FULLSCREEN_EXIT': controller.fullscreen_exit,
+        'FULLSCREEN_TOGGLE': controller.fullscreen_toggle,
+        'THEATER_MODE': controller.theater_mode,
+        'THEATER_MODE_EXIT': controller.theater_mode_exit,
+        'PICTURE_IN_PICTURE_ENTER': controller.picture_in_picture_enter,
+        'PICTURE_IN_PICTURE_EXIT': controller.picture_in_picture_exit,
+        # Audio Control Commands
+        'VOLUME_UP': controller.volume_up,
+        'VOLUME_DOWN': controller.volume_down,
+        'MUTE_AUDIO': controller.mute_audio,
+        'UNMUTE_AUDIO': controller.unmute_audio,
+        'TOGGLE_MUTE': controller.toggle_mute,
+        'BROWSER_TAB_MUTE': controller.browser_tab_mute,
+        'BROWSER_TAB_UNMUTE': controller.browser_tab_unmute,
+        'SYSTEM_MUTE_ALL': controller.system_mute_all,
+        'SYSTEM_AUDIO_RESTORE': controller.system_audio_restore,
+        # Subtitles/Captions Commands
+        'CAPTIONS_TOGGLE_ON': controller.captions_toggle_on,
+        'CAPTIONS_TOGGLE_OFF': controller.captions_toggle_off,
+        'CAPTIONS_CYCLE_LANGUAGE': controller.captions_cycle_language,
+        'CAPTIONS_SIZE_INCREASE': controller.captions_size_increase,
+        'CAPTIONS_SIZE_DECREASE': controller.captions_size_decrease,
     }
     
     print(f"PC Controller starting...")
@@ -644,9 +1013,11 @@ def main():
                     
                     if command in commands:
                         try:
-                            # Handle commands with parameters (currently only BROWSER_OPEN_URL)
+                            # Handle commands with parameters
                             if param and command == 'BROWSER_OPEN_URL':
                                 result = controller.browser_open_url(param)
+                            elif param and command == 'VOLUME_SET':
+                                result = controller.volume_set(int(param))
                             else:
                                 result = commands[command]()
                             
