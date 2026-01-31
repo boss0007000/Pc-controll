@@ -17,6 +17,19 @@ A complete system that allows you to control your Windows PC and browser through
 - **Minimize** - Minimize browser window
 - **Close** - Close browser window
 - **Restore Session** - Restore last browser session
+- **Open Chrome** - Launch Chrome browser
+- **Open Firefox** - Launch Firefox browser
+- **Open Edge** - Launch Edge browser
+- **New Tab** - Open a new tab in active browser
+- **Close Tab** - Close current tab
+- **Next Tab** - Switch to next tab
+- **Previous Tab** - Switch to previous tab
+- **Reload Page** - Refresh current page
+- **Hard Reload** - Refresh page bypassing cache
+- **Home** - Navigate to browser home page
+- **Open YouTube** - Open YouTube in default browser
+- **Open Hulu** - Open Hulu in default browser
+- **Open URL** - Open any specific URL
 
 ## Hardware Requirements
 
@@ -144,6 +157,9 @@ Send HTTP POST requests directly to the ESP32:
 ```bash
 curl -X POST http://esp32-pc-controller.local/pc/wake
 curl -X POST http://esp32-pc-controller.local/browser/maximize
+curl -X POST http://esp32-pc-controller.local/browser/new-tab
+curl -X POST http://esp32-pc-controller.local/browser/open-youtube
+curl -X POST -d "url=https://www.netflix.com" http://esp32-pc-controller.local/browser/open-url
 ```
 
 ### Available Endpoints
@@ -162,6 +178,19 @@ curl -X POST http://esp32-pc-controller.local/browser/maximize
 | `/browser/minimize` | POST | Minimize browser |
 | `/browser/close` | POST | Close browser |
 | `/browser/restore` | POST | Restore browser session |
+| `/browser/open-chrome` | POST | Open Chrome browser |
+| `/browser/open-firefox` | POST | Open Firefox browser |
+| `/browser/open-edge` | POST | Open Edge browser |
+| `/browser/new-tab` | POST | Open new tab |
+| `/browser/close-tab` | POST | Close current tab |
+| `/browser/next-tab` | POST | Switch to next tab |
+| `/browser/prev-tab` | POST | Switch to previous tab |
+| `/browser/reload` | POST | Reload current page |
+| `/browser/hard-reload` | POST | Hard reload (bypass cache) |
+| `/browser/home` | POST | Navigate to home page |
+| `/browser/open-url` | POST | Open specific URL (param: `url`) |
+| `/browser/open-youtube` | POST | Open YouTube |
+| `/browser/open-hulu` | POST | Open Hulu |
 | `/command` | POST | Send custom command (param: `cmd`) |
 
 ## Architecture

@@ -20,6 +20,28 @@
 - **Close Browser** - Close browser application
 - **Restore Session** - Reopen browser with last tabs
 
+### ✅ Browser Application Control
+- **Open Chrome** - Launch Chrome browser
+- **Open Firefox** - Launch Firefox browser
+- **Open Edge** - Launch Edge browser
+
+### ✅ Tab Management
+- **New Tab** - Open a new tab in active browser
+- **Close Tab** - Close current tab
+- **Next Tab** - Switch to next tab (Ctrl+Tab)
+- **Previous Tab** - Switch to previous tab (Ctrl+Shift+Tab)
+
+### ✅ Page Control
+- **Reload Page** - Refresh current page (F5)
+- **Hard Reload** - Refresh page bypassing cache (Ctrl+F5)
+- **Home Page** - Navigate to browser home page (Alt+Home)
+
+### ✅ URL Navigation
+- **Open URL** - Open any specific URL in default browser
+- **Open YouTube** - Quick access to YouTube
+- **Open Hulu** - Quick access to Hulu
+- **Open Custom Sites** - Configurable for any website
+
 ### ✅ Home Assistant Integration
 - REST API endpoints for all commands
 - Button entities for dashboard control
@@ -73,6 +95,12 @@ Movie Mode:
   - Move to TV display
   - Maximize for full-screen
   - Perfect for streaming
+
+Quick Access:
+  - Open YouTube with one click
+  - Open Hulu for shows
+  - Open any streaming site via URL
+  - Navigate with tab controls
 ```
 
 ### 💼 Work From Home

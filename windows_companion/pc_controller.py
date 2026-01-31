@@ -21,6 +21,7 @@ import win32con
 import win32gui
 import win32process
 import psutil
+import webbrowser
 from ctypes import windll, Structure, c_uint, sizeof, byref
 
 # Command handlers
@@ -196,6 +197,185 @@ class PCController:
                     return "BROWSER_RESTORE executed - Edge"
                 except FileNotFoundError:
                     return "BROWSER_RESTORE failed - no browser found"
+    
+    def browser_open_chrome(self):
+        """Open Chrome browser"""
+        print("Executing: Open Chrome")
+        try:
+            subprocess.Popen(['chrome.exe'])
+            return "BROWSER_OPEN_CHROME executed"
+        except FileNotFoundError:
+            return "BROWSER_OPEN_CHROME failed - Chrome not found"
+    
+    def browser_open_firefox(self):
+        """Open Firefox browser"""
+        print("Executing: Open Firefox")
+        try:
+            subprocess.Popen(['firefox.exe'])
+            return "BROWSER_OPEN_FIREFOX executed"
+        except FileNotFoundError:
+            return "BROWSER_OPEN_FIREFOX failed - Firefox not found"
+    
+    def browser_open_edge(self):
+        """Open Edge browser"""
+        print("Executing: Open Edge")
+        try:
+            subprocess.Popen(['msedge.exe'])
+            return "BROWSER_OPEN_EDGE executed"
+        except FileNotFoundError:
+            return "BROWSER_OPEN_EDGE failed - Edge not found"
+    
+    def browser_new_tab(self):
+        """Open a new tab in the active browser"""
+        print("Executing: Browser New Tab")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send Ctrl+T to open new tab
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(ord('T'), 0, 0, 0)
+            windll.user32.keybd_event(ord('T'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_NEW_TAB executed"
+        else:
+            return "BROWSER_NEW_TAB failed - no browser found"
+    
+    def browser_close_tab(self):
+        """Close current tab in the active browser"""
+        print("Executing: Browser Close Tab")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send Ctrl+W to close current tab
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(ord('W'), 0, 0, 0)
+            windll.user32.keybd_event(ord('W'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_CLOSE_TAB executed"
+        else:
+            return "BROWSER_CLOSE_TAB failed - no browser found"
+    
+    def browser_next_tab(self):
+        """Switch to next tab in the active browser"""
+        print("Executing: Browser Next Tab")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send Ctrl+Tab to switch to next tab
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_TAB, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_TAB, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_NEXT_TAB executed"
+        else:
+            return "BROWSER_NEXT_TAB failed - no browser found"
+    
+    def browser_prev_tab(self):
+        """Switch to previous tab in the active browser"""
+        print("Executing: Browser Previous Tab")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send Ctrl+Shift+Tab to switch to previous tab
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_SHIFT, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_TAB, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_TAB, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_SHIFT, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_PREV_TAB executed"
+        else:
+            return "BROWSER_PREV_TAB failed - no browser found"
+    
+    def browser_reload(self):
+        """Reload the current page"""
+        print("Executing: Browser Reload")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send F5 to reload page
+            windll.user32.keybd_event(win32con.VK_F5, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_F5, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_RELOAD executed"
+        else:
+            return "BROWSER_RELOAD failed - no browser found"
+    
+    def browser_hard_reload(self):
+        """Hard reload the current page (bypass cache)"""
+        print("Executing: Browser Hard Reload")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send Ctrl+F5 or Ctrl+Shift+R for hard reload
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_F5, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_F5, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_CONTROL, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_HARD_RELOAD executed"
+        else:
+            return "BROWSER_HARD_RELOAD failed - no browser found"
+    
+    def browser_home(self):
+        """Navigate to browser home page"""
+        print("Executing: Browser Home")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            # Focus the browser first
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send Alt+Home to go to home page
+            windll.user32.keybd_event(win32con.VK_MENU, 0, 0, 0)  # Alt key
+            windll.user32.keybd_event(win32con.VK_HOME, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_HOME, 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_MENU, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "BROWSER_HOME executed"
+        else:
+            return "BROWSER_HOME failed - no browser found"
+    
+    def browser_open_url(self, url):
+        """Open a specific URL in the default browser"""
+        print(f"Executing: Open URL: {url}")
+        try:
+            webbrowser.open(url)
+            return f"BROWSER_OPEN_URL executed: {url}"
+        except Exception as e:
+            return f"BROWSER_OPEN_URL failed: {str(e)}"
+    
+    def browser_open_youtube(self):
+        """Open YouTube in the default browser"""
+        print("Executing: Open YouTube")
+        return self.browser_open_url("https://www.youtube.com")
+    
+    def browser_open_hulu(self):
+        """Open Hulu in the default browser"""
+        print("Executing: Open Hulu")
+        return self.browser_open_url("https://www.hulu.com")
 
 def main():
     parser = argparse.ArgumentParser(description='PC Controller - Windows Companion Script')
@@ -217,6 +397,18 @@ def main():
         'BROWSER_MINIMIZE': controller.browser_minimize,
         'BROWSER_CLOSE': controller.browser_close,
         'BROWSER_RESTORE': controller.browser_restore,
+        'BROWSER_OPEN_CHROME': controller.browser_open_chrome,
+        'BROWSER_OPEN_FIREFOX': controller.browser_open_firefox,
+        'BROWSER_OPEN_EDGE': controller.browser_open_edge,
+        'BROWSER_NEW_TAB': controller.browser_new_tab,
+        'BROWSER_CLOSE_TAB': controller.browser_close_tab,
+        'BROWSER_NEXT_TAB': controller.browser_next_tab,
+        'BROWSER_PREV_TAB': controller.browser_prev_tab,
+        'BROWSER_RELOAD': controller.browser_reload,
+        'BROWSER_HARD_RELOAD': controller.browser_hard_reload,
+        'BROWSER_HOME': controller.browser_home,
+        'BROWSER_OPEN_YOUTUBE': controller.browser_open_youtube,
+        'BROWSER_OPEN_HULU': controller.browser_open_hulu,
     }
     
     print(f"PC Controller starting...")
@@ -235,16 +427,26 @@ def main():
                 if line:
                     print(f"\nReceived command: {line}")
                     
-                    if line in commands:
+                    # Check if command has parameters (format: COMMAND:param)
+                    parts = line.split(':', 1)
+                    command = parts[0]
+                    param = parts[1] if len(parts) > 1 else None
+                    
+                    if command in commands:
                         try:
-                            result = commands[line]()
+                            # Handle commands with parameters (currently only BROWSER_OPEN_URL)
+                            if param and command == 'BROWSER_OPEN_URL':
+                                result = controller.browser_open_url(param)
+                            else:
+                                result = commands[command]()
+                            
                             response = f"STATUS:{result}\n"
                             ser.write(response.encode('utf-8'))
                             print(f"Response sent: {result}")
                         except Exception as e:
-                            error_msg = f"ERROR:{line} - {str(e)}\n"
+                            error_msg = f"ERROR:{command} - {str(e)}\n"
                             ser.write(error_msg.encode('utf-8'))
-                            print(f"Error executing {line}: {e}")
+                            print(f"Error executing {command}: {e}")
                     else:
                         print(f"Unknown command: {line}")
                         ser.write(f"ERROR:Unknown command {line}\n".encode('utf-8'))

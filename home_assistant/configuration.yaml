@@ -43,6 +43,60 @@ rest_command:
   browser_restore:
     url: "http://esp32-pc-controller.local/browser/restore"
     method: POST
+  
+  browser_open_chrome:
+    url: "http://esp32-pc-controller.local/browser/open-chrome"
+    method: POST
+    
+  browser_open_firefox:
+    url: "http://esp32-pc-controller.local/browser/open-firefox"
+    method: POST
+    
+  browser_open_edge:
+    url: "http://esp32-pc-controller.local/browser/open-edge"
+    method: POST
+    
+  browser_new_tab:
+    url: "http://esp32-pc-controller.local/browser/new-tab"
+    method: POST
+    
+  browser_close_tab:
+    url: "http://esp32-pc-controller.local/browser/close-tab"
+    method: POST
+    
+  browser_next_tab:
+    url: "http://esp32-pc-controller.local/browser/next-tab"
+    method: POST
+    
+  browser_prev_tab:
+    url: "http://esp32-pc-controller.local/browser/prev-tab"
+    method: POST
+    
+  browser_reload:
+    url: "http://esp32-pc-controller.local/browser/reload"
+    method: POST
+    
+  browser_hard_reload:
+    url: "http://esp32-pc-controller.local/browser/hard-reload"
+    method: POST
+    
+  browser_home:
+    url: "http://esp32-pc-controller.local/browser/home"
+    method: POST
+    
+  browser_open_url:
+    url: "http://esp32-pc-controller.local/browser/open-url"
+    method: POST
+    payload: "url={{ url }}"
+    content_type: "application/x-www-form-urlencoded"
+    
+  browser_open_youtube:
+    url: "http://esp32-pc-controller.local/browser/open-youtube"
+    method: POST
+    
+  browser_open_hulu:
+    url: "http://esp32-pc-controller.local/browser/open-hulu"
+    method: POST
 
 # Sensor to monitor ESP32 status
 sensor:
@@ -124,6 +178,78 @@ button:
         icon_template: mdi:restore
         action:
           - action: rest_command.browser_restore
+      
+      browser_open_chrome_button:
+        friendly_name: "Open Chrome"
+        icon_template: mdi:google-chrome
+        action:
+          - action: rest_command.browser_open_chrome
+      
+      browser_open_firefox_button:
+        friendly_name: "Open Firefox"
+        icon_template: mdi:firefox
+        action:
+          - action: rest_command.browser_open_firefox
+      
+      browser_open_edge_button:
+        friendly_name: "Open Edge"
+        icon_template: mdi:microsoft-edge
+        action:
+          - action: rest_command.browser_open_edge
+      
+      browser_new_tab_button:
+        friendly_name: "New Tab"
+        icon_template: mdi:tab-plus
+        action:
+          - action: rest_command.browser_new_tab
+      
+      browser_close_tab_button:
+        friendly_name: "Close Tab"
+        icon_template: mdi:tab-minus
+        action:
+          - action: rest_command.browser_close_tab
+      
+      browser_next_tab_button:
+        friendly_name: "Next Tab"
+        icon_template: mdi:tab
+        action:
+          - action: rest_command.browser_next_tab
+      
+      browser_prev_tab_button:
+        friendly_name: "Previous Tab"
+        icon_template: mdi:tab
+        action:
+          - action: rest_command.browser_prev_tab
+      
+      browser_reload_button:
+        friendly_name: "Reload Page"
+        icon_template: mdi:refresh
+        action:
+          - action: rest_command.browser_reload
+      
+      browser_hard_reload_button:
+        friendly_name: "Hard Reload Page"
+        icon_template: mdi:refresh-circle
+        action:
+          - action: rest_command.browser_hard_reload
+      
+      browser_home_button:
+        friendly_name: "Browser Home"
+        icon_template: mdi:home
+        action:
+          - action: rest_command.browser_home
+      
+      browser_open_youtube_button:
+        friendly_name: "Open YouTube"
+        icon_template: mdi:youtube
+        action:
+          - action: rest_command.browser_open_youtube
+      
+      browser_open_hulu_button:
+        friendly_name: "Open Hulu"
+        icon_template: mdi:television-play
+        action:
+          - action: rest_command.browser_open_hulu
 
 # Optional: Create a dashboard card
 # Add this to your Lovelace dashboard:
@@ -141,4 +267,21 @@ button:
 #   - button.browser_minimize_button
 #   - button.browser_close_button
 #   - button.browser_restore_button
+#   - button.browser_open_chrome_button
+#   - button.browser_open_firefox_button
+#   - button.browser_open_edge_button
+#   - button.browser_new_tab_button
+#   - button.browser_close_tab_button
+#   - button.browser_next_tab_button
+#   - button.browser_prev_tab_button
+#   - button.browser_reload_button
+#   - button.browser_hard_reload_button
+#   - button.browser_home_button
+#   - button.browser_open_youtube_button
+#   - button.browser_open_hulu_button
 #   - sensor.pc_controller_status
+#
+# Example: Open a custom URL
+# service: rest_command.browser_open_url
+# data:
+#   url: "https://www.netflix.com"

@@ -19,6 +19,19 @@
  * - BROWSER_MINIMIZE: Minimize browser
  * - BROWSER_CLOSE: Close browser
  * - BROWSER_RESTORE: Restore browser session
+ * - BROWSER_OPEN_CHROME: Open Chrome browser
+ * - BROWSER_OPEN_FIREFOX: Open Firefox browser
+ * - BROWSER_OPEN_EDGE: Open Edge browser
+ * - BROWSER_NEW_TAB: Open a new tab
+ * - BROWSER_CLOSE_TAB: Close current tab
+ * - BROWSER_NEXT_TAB: Switch to next tab
+ * - BROWSER_PREV_TAB: Switch to previous tab
+ * - BROWSER_RELOAD: Reload current page
+ * - BROWSER_HARD_RELOAD: Hard reload (bypass cache)
+ * - BROWSER_HOME: Go to browser home page
+ * - BROWSER_OPEN_URL: Open a specific URL
+ * - BROWSER_OPEN_YOUTUBE: Open YouTube
+ * - BROWSER_OPEN_HULU: Open Hulu
  */
 
 #include <WiFi.h>
@@ -181,6 +194,81 @@ void setupWebServer() {
   server.on("/browser/restore", HTTP_POST, [](AsyncWebServerRequest *request) {
     executeCommand("BROWSER_RESTORE");
     request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_RESTORE\"}");
+  });
+  
+  // Browser Opening endpoints
+  server.on("/browser/open-chrome", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_OPEN_CHROME");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_CHROME\"}");
+  });
+  
+  server.on("/browser/open-firefox", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_OPEN_FIREFOX");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_FIREFOX\"}");
+  });
+  
+  server.on("/browser/open-edge", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_OPEN_EDGE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_EDGE\"}");
+  });
+  
+  // Tab Control endpoints
+  server.on("/browser/new-tab", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_NEW_TAB");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_NEW_TAB\"}");
+  });
+  
+  server.on("/browser/close-tab", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_CLOSE_TAB");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_CLOSE_TAB\"}");
+  });
+  
+  server.on("/browser/next-tab", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_NEXT_TAB");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_NEXT_TAB\"}");
+  });
+  
+  server.on("/browser/prev-tab", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_PREV_TAB");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_PREV_TAB\"}");
+  });
+  
+  // Page Control endpoints
+  server.on("/browser/reload", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_RELOAD");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_RELOAD\"}");
+  });
+  
+  server.on("/browser/hard-reload", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_HARD_RELOAD");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_HARD_RELOAD\"}");
+  });
+  
+  server.on("/browser/home", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_HOME");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_HOME\"}");
+  });
+  
+  // URL Opening endpoints
+  server.on("/browser/open-url", HTTP_POST, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("url", true)) {
+      String url = request->getParam("url", true)->value();
+      String cmd = "BROWSER_OPEN_URL:" + url;
+      executeCommand(cmd);
+      request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_URL\",\"url\":\"" + url + "\"}");
+    } else {
+      request->send(400, "application/json", "{\"status\":\"error\",\"message\":\"Missing url parameter\"}");
+    }
+  });
+  
+  server.on("/browser/open-youtube", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_OPEN_YOUTUBE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_YOUTUBE\"}");
+  });
+  
+  server.on("/browser/open-hulu", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_OPEN_HULU");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_HULU\"}");
   });
   
   // Generic command endpoint
