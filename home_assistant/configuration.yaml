@@ -1,0 +1,144 @@
+# Home Assistant Configuration for ESP32 PC Controller
+
+# Add this to your configuration.yaml file
+
+# RESTful Command configuration
+rest_command:
+  pc_wake:
+    url: "http://esp32-pc-controller.local/pc/wake"
+    method: POST
+    
+  pc_sleep:
+    url: "http://esp32-pc-controller.local/pc/sleep"
+    method: POST
+    
+  display_on:
+    url: "http://esp32-pc-controller.local/display/on"
+    method: POST
+    
+  display_off:
+    url: "http://esp32-pc-controller.local/display/off"
+    method: POST
+    
+  browser_focus:
+    url: "http://esp32-pc-controller.local/browser/focus"
+    method: POST
+    
+  browser_move_tv:
+    url: "http://esp32-pc-controller.local/browser/move-tv"
+    method: POST
+    
+  browser_maximize:
+    url: "http://esp32-pc-controller.local/browser/maximize"
+    method: POST
+    
+  browser_minimize:
+    url: "http://esp32-pc-controller.local/browser/minimize"
+    method: POST
+    
+  browser_close:
+    url: "http://esp32-pc-controller.local/browser/close"
+    method: POST
+    
+  browser_restore:
+    url: "http://esp32-pc-controller.local/browser/restore"
+    method: POST
+
+# Sensor to monitor ESP32 status
+sensor:
+  - platform: rest
+    name: "PC Controller Status"
+    resource: "http://esp32-pc-controller.local/status"
+    method: GET
+    scan_interval: 30
+    json_attributes:
+      - device
+      - ip
+      - uptime
+      - wifi_rssi
+      - pc_awake
+      - display_on
+      - last_command
+    value_template: "{{ value_json.device }}"
+
+# Button entities for easy control
+button:
+  - platform: template
+    buttons:
+      pc_wake_button:
+        friendly_name: "Wake PC"
+        icon_template: mdi:power
+        action:
+          - action: rest_command.pc_wake
+          
+      pc_sleep_button:
+        friendly_name: "Sleep PC"
+        icon_template: mdi:power-sleep
+        action:
+          - action: rest_command.pc_sleep
+          
+      display_on_button:
+        friendly_name: "Display On"
+        icon_template: mdi:monitor
+        action:
+          - action: rest_command.display_on
+          
+      display_off_button:
+        friendly_name: "Display Off"
+        icon_template: mdi:monitor-off
+        action:
+          - action: rest_command.display_off
+          
+      browser_focus_button:
+        friendly_name: "Focus Browser"
+        icon_template: mdi:application-brackets
+        action:
+          - action: rest_command.browser_focus
+          
+      browser_tv_button:
+        friendly_name: "Browser to TV"
+        icon_template: mdi:television
+        action:
+          - action: rest_command.browser_move_tv
+          
+      browser_maximize_button:
+        friendly_name: "Maximize Browser"
+        icon_template: mdi:arrow-expand-all
+        action:
+          - action: rest_command.browser_maximize
+          
+      browser_minimize_button:
+        friendly_name: "Minimize Browser"
+        icon_template: mdi:arrow-collapse-all
+        action:
+          - action: rest_command.browser_minimize
+          
+      browser_close_button:
+        friendly_name: "Close Browser"
+        icon_template: mdi:close
+        action:
+          - action: rest_command.browser_close
+          
+      browser_restore_button:
+        friendly_name: "Restore Browser"
+        icon_template: mdi:restore
+        action:
+          - action: rest_command.browser_restore
+
+# Optional: Create a dashboard card
+# Add this to your Lovelace dashboard:
+#
+# type: entities
+# title: PC Controller
+# entities:
+#   - button.pc_wake_button
+#   - button.pc_sleep_button
+#   - button.display_on_button
+#   - button.display_off_button
+#   - button.browser_focus_button
+#   - button.browser_tv_button
+#   - button.browser_maximize_button
+#   - button.browser_minimize_button
+#   - button.browser_close_button
+#   - button.browser_restore_button
+#   - sensor.pc_controller_status
