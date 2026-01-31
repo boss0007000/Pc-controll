@@ -326,3 +326,143 @@
         seconds: 1
     - action: rest_command.browser_maximize
       data: {}
+
+# ============================================
+# NEW BROWSER CONTROLS
+# ============================================
+
+# Quick YouTube access
+- alias: "Open YouTube"
+  description: "Open YouTube with a button press"
+  trigger:
+    - platform: state
+      entity_id: input_button.open_youtube  # Create this helper first
+  action:
+    - action: rest_command.browser_open_youtube
+      data: {}
+
+# Quick Hulu access
+- alias: "Open Hulu"
+  description: "Open Hulu with a button press"
+  trigger:
+    - platform: state
+      entity_id: input_button.open_hulu  # Create this helper first
+  action:
+    - action: rest_command.browser_open_hulu
+      data: {}
+
+# Open custom streaming site (example)
+- alias: "Open Custom Streaming Site - Netflix"
+  description: "Example: Open Netflix using custom URL feature"
+  trigger:
+    - platform: state
+      entity_id: input_button.open_netflix  # Create this helper first
+  action:
+    - action: rest_command.browser_open_url
+      data:
+        url: "https://www.netflix.com"
+
+# Open multiple tabs for morning routine
+- alias: "Morning News Routine"
+  description: "Open multiple news sites in tabs"
+  trigger:
+    - platform: time
+      at: "07:30:00"
+  condition:
+    - condition: state
+      entity_id: person.you
+      state: "home"
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - action: rest_command.browser_open_chrome
+      data: {}
+    - delay:
+        seconds: 3
+    - action: rest_command.browser_open_url
+      data:
+        url: "https://news.google.com"
+    - delay:
+        seconds: 2
+    - action: rest_command.browser_new_tab
+      data: {}
+    - delay:
+        seconds: 1
+    - action: rest_command.browser_open_url
+      data:
+        url: "https://www.weather.com"
+
+# Tab navigation for browsing
+- alias: "Next Tab Voice Command"
+  description: "Switch to next browser tab via voice"
+  trigger:
+    - platform: conversation
+      command:
+        - "next tab"
+        - "switch tab"
+  action:
+    - action: rest_command.browser_next_tab
+      data: {}
+
+# Refresh page on schedule
+- alias: "Refresh Dashboard"
+  description: "Auto-refresh browser dashboard every 5 minutes"
+  trigger:
+    - platform: time_pattern
+      minutes: "/5"
+  condition:
+    - condition: state
+      entity_id: input_boolean.dashboard_mode
+      state: "on"
+  action:
+    - action: rest_command.browser_reload
+      data: {}
+
+# Quick browser launch
+- alias: "Launch Browser on Voice"
+  description: "Launch specific browser via voice command"
+  trigger:
+    - platform: conversation
+      command:
+        - "open chrome"
+        - "launch chrome"
+  action:
+    - action: rest_command.browser_open_chrome
+      data: {}
+
+# Streaming service selector
+- alias: "Voice - Open Streaming Service"
+  description: "Open streaming services via voice"
+  trigger:
+    - platform: conversation
+      command:
+        - "open youtube"
+        - "launch youtube"
+  action:
+    - action: rest_command.browser_open_youtube
+      data: {}
+
+# Close unnecessary tabs
+- alias: "Clean Up Browser"
+  description: "Close current tab to clean up browser"
+  trigger:
+    - platform: state
+      entity_id: input_button.close_tab
+  action:
+    - action: rest_command.browser_close_tab
+      data: {}
+
+# Navigate home for reset
+- alias: "Browser Home Reset"
+  description: "Return browser to home page"
+  trigger:
+    - platform: state
+      entity_id: input_button.browser_home
+  action:
+    - action: rest_command.browser_home
+      data: {}

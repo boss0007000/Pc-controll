@@ -427,14 +427,14 @@ def main():
                 if line:
                     print(f"\nReceived command: {line}")
                     
-                    # Check if command has parameters (format: COMMAND:param1:param2)
+                    # Check if command has parameters (format: COMMAND:param)
                     parts = line.split(':', 1)
                     command = parts[0]
                     param = parts[1] if len(parts) > 1 else None
                     
                     if command in commands:
                         try:
-                            # Handle commands with parameters
+                            # Handle commands with parameters (currently only BROWSER_OPEN_URL)
                             if param and command == 'BROWSER_OPEN_URL':
                                 result = controller.browser_open_url(param)
                             else:
