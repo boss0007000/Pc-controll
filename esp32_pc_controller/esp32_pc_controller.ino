@@ -491,6 +491,202 @@ void setupWebServer() {
     request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"CAPTIONS_SIZE_DECREASE\"}");
   });
   
+  // Navigation Control endpoints (without mouse)
+  server.on("/nav/select", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_SELECT_ELEMENT");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_SELECT_ELEMENT\"}");
+  });
+  
+  server.on("/nav/back", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_BACK");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_BACK\"}");
+  });
+  
+  server.on("/nav/forward", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_FORWARD");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_FORWARD\"}");
+  });
+  
+  server.on("/nav/exit-menu", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_EXIT_MENU");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_EXIT_MENU\"}");
+  });
+  
+  server.on("/nav/scroll-up", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_SCROLL_UP");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_SCROLL_UP\"}");
+  });
+  
+  server.on("/nav/scroll-down", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_SCROLL_DOWN");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_SCROLL_DOWN\"}");
+  });
+  
+  server.on("/nav/page-up", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_PAGE_UP");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_PAGE_UP\"}");
+  });
+  
+  server.on("/nav/page-down", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_PAGE_DOWN");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_PAGE_DOWN\"}");
+  });
+  
+  server.on("/nav/focus-search", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_FOCUS_SEARCH");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_FOCUS_SEARCH\"}");
+  });
+  
+  server.on("/nav/clear-search", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_CLEAR_SEARCH");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_CLEAR_SEARCH\"}");
+  });
+  
+  server.on("/nav/submit-search", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_SUBMIT_SEARCH");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_SUBMIT_SEARCH\"}");
+  });
+  
+  server.on("/nav/tab-forward", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("NAV_TAB_FORWARD");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"NAV_TAB_FORWARD\"}");
+  });
+  
+  // Search & Content Discovery endpoints
+  server.on("/search/youtube", HTTP_POST, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("query", true)) {
+      String query = request->getParam("query", true)->value();
+      executeCommand("SEARCH_YOUTUBE:" + query);
+      request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SEARCH_YOUTUBE\"}");
+    } else {
+      request->send(400, "application/json", "{\"status\":\"error\",\"message\":\"Missing query parameter\"}");
+    }
+  });
+  
+  server.on("/search/hulu", HTTP_POST, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("query", true)) {
+      String query = request->getParam("query", true)->value();
+      executeCommand("SEARCH_HULU:" + query);
+      request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SEARCH_HULU\"}");
+    } else {
+      request->send(400, "application/json", "{\"status\":\"error\",\"message\":\"Missing query parameter\"}");
+    }
+  });
+  
+  server.on("/search/current-site", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SEARCH_CURRENT_SITE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SEARCH_CURRENT_SITE\"}");
+  });
+  
+  server.on("/content/youtube-trending", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("OPEN_YOUTUBE_TRENDING");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"OPEN_YOUTUBE_TRENDING\"}");
+  });
+  
+  server.on("/content/youtube-subscriptions", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("OPEN_YOUTUBE_SUBSCRIPTIONS");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"OPEN_YOUTUBE_SUBSCRIPTIONS\"}");
+  });
+  
+  server.on("/content/hulu-watchlist", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("OPEN_HULU_WATCHLIST");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"OPEN_HULU_WATCHLIST\"}");
+  });
+  
+  server.on("/content/youtube-history", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("OPEN_YOUTUBE_HISTORY");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"OPEN_YOUTUBE_HISTORY\"}");
+  });
+  
+  server.on("/content/netflix-home", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("OPEN_NETFLIX_HOME");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"OPEN_NETFLIX_HOME\"}");
+  });
+  
+  // User Interaction endpoints (site-specific)
+  server.on("/youtube/like", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("YOUTUBE_LIKE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"YOUTUBE_LIKE\"}");
+  });
+  
+  server.on("/youtube/dislike", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("YOUTUBE_DISLIKE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"YOUTUBE_DISLIKE\"}");
+  });
+  
+  server.on("/youtube/subscribe", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("YOUTUBE_SUBSCRIBE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"YOUTUBE_SUBSCRIBE\"}");
+  });
+  
+  server.on("/action/skip", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SKIP_BUTTON_ACTION");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SKIP_BUTTON_ACTION\"}");
+  });
+  
+  // Multi-Monitor Control endpoints
+  server.on("/browser/move-monitor-1", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_MOVE_MONITOR_1");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_MOVE_MONITOR_1\"}");
+  });
+  
+  server.on("/browser/move-monitor-2", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_MOVE_MONITOR_2");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_MOVE_MONITOR_2\"}");
+  });
+  
+  // Focus & Distraction Control endpoints
+  server.on("/focus/assist-enable", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("FOCUS_ASSIST_ENABLE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"FOCUS_ASSIST_ENABLE\"}");
+  });
+  
+  server.on("/focus/assist-disable", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("FOCUS_ASSIST_DISABLE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"FOCUS_ASSIST_DISABLE\"}");
+  });
+  
+  server.on("/sleep/prevent", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PREVENT_SLEEP");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PREVENT_SLEEP\"}");
+  });
+  
+  server.on("/sleep/allow", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("ALLOW_SLEEP");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"ALLOW_SLEEP\"}");
+  });
+  
+  // Smart Convenience endpoints
+  server.on("/smart/show-something", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SMART_SHOW_SOMETHING");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SMART_SHOW_SOMETHING\"}");
+  });
+  
+  server.on("/smart/continue-last", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SMART_CONTINUE_LAST");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SMART_CONTINUE_LAST\"}");
+  });
+  
+  server.on("/smart/find-else", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SMART_FIND_ELSE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SMART_FIND_ELSE\"}");
+  });
+  
+  server.on("/smart/thats-enough", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SMART_THATS_ENOUGH");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SMART_THATS_ENOUGH\"}");
+  });
+  
+  server.on("/smart/kill-playback", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SMART_KILL_PLAYBACK");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SMART_KILL_PLAYBACK\"}");
+  });
+  
+  server.on("/smart/emergency-mute", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SMART_EMERGENCY_MUTE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SMART_EMERGENCY_MUTE\"}");
+  });
+  
   // Generic command endpoint
   server.on("/command", HTTP_POST, [](AsyncWebServerRequest *request) {
     if (request->hasParam("cmd", true)) {
