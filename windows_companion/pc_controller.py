@@ -376,6 +376,202 @@ class PCController:
         """Open Hulu in the default browser"""
         print("Executing: Open Hulu")
         return self.browser_open_url("https://www.hulu.com")
+    
+    # Playback Control Methods (Universal - works on YouTube, Netflix, Hulu, Prime Video, etc.)
+    
+    def playback_play_pause(self):
+        """Toggle play/pause in video player"""
+        print("Executing: Playback Play/Pause Toggle")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Send spacebar to toggle play/pause (universal across all video platforms)
+            windll.user32.keybd_event(win32con.VK_SPACE, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_SPACE, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_PLAY_PAUSE executed"
+        else:
+            return "PLAYBACK_PLAY_PAUSE failed - no browser found"
+    
+    def playback_play(self):
+        """Play video (same as play/pause toggle)"""
+        print("Executing: Playback Play")
+        return self.playback_play_pause()
+    
+    def playback_pause(self):
+        """Pause video (same as play/pause toggle)"""
+        print("Executing: Playback Pause")
+        return self.playback_play_pause()
+    
+    def playback_stop(self):
+        """Stop video (pause and exit fullscreen)"""
+        print("Executing: Playback Stop")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # First pause with spacebar
+            windll.user32.keybd_event(win32con.VK_SPACE, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_SPACE, 0, win32con.KEYEVENTF_KEYUP, 0)
+            time.sleep(0.2)
+            # Then exit fullscreen with Escape
+            windll.user32.keybd_event(win32con.VK_ESCAPE, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_ESCAPE, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_STOP executed"
+        else:
+            return "PLAYBACK_STOP failed - no browser found"
+    
+    def playback_restart(self):
+        """Restart video from beginning"""
+        print("Executing: Playback Restart")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Press Home key to jump to beginning
+            windll.user32.keybd_event(win32con.VK_HOME, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_HOME, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_RESTART executed"
+        else:
+            return "PLAYBACK_RESTART failed - no browser found"
+    
+    def playback_seek_forward_small(self):
+        """Seek forward 5 seconds (Right arrow key)"""
+        print("Executing: Playback Seek Forward Small")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Right arrow for small forward seek
+            windll.user32.keybd_event(win32con.VK_RIGHT, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_RIGHT, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_SEEK_FORWARD_SMALL executed"
+        else:
+            return "PLAYBACK_SEEK_FORWARD_SMALL failed - no browser found"
+    
+    def playback_seek_backward_small(self):
+        """Seek backward 5 seconds (Left arrow key)"""
+        print("Executing: Playback Seek Backward Small")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Left arrow for small backward seek
+            windll.user32.keybd_event(win32con.VK_LEFT, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_LEFT, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_SEEK_BACKWARD_SMALL executed"
+        else:
+            return "PLAYBACK_SEEK_BACKWARD_SMALL failed - no browser found"
+    
+    def playback_seek_forward_large(self):
+        """Seek forward 10 seconds (L key on YouTube, Shift+Right on others)"""
+        print("Executing: Playback Seek Forward Large")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Try L key (YouTube standard)
+            windll.user32.keybd_event(ord('L'), 0, 0, 0)
+            windll.user32.keybd_event(ord('L'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_SEEK_FORWARD_LARGE executed"
+        else:
+            return "PLAYBACK_SEEK_FORWARD_LARGE failed - no browser found"
+    
+    def playback_seek_backward_large(self):
+        """Seek backward 10 seconds (J key on YouTube, Shift+Left on others)"""
+        print("Executing: Playback Seek Backward Large")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Try J key (YouTube standard)
+            windll.user32.keybd_event(ord('J'), 0, 0, 0)
+            windll.user32.keybd_event(ord('J'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_SEEK_BACKWARD_LARGE executed"
+        else:
+            return "PLAYBACK_SEEK_BACKWARD_LARGE failed - no browser found"
+    
+    def playback_jump_to_beginning(self):
+        """Jump to the beginning of video"""
+        print("Executing: Playback Jump to Beginning")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Home key to jump to beginning
+            windll.user32.keybd_event(win32con.VK_HOME, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_HOME, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_JUMP_TO_BEGINNING executed"
+        else:
+            return "PLAYBACK_JUMP_TO_BEGINNING failed - no browser found"
+    
+    def playback_jump_to_end(self):
+        """Jump to the end of video"""
+        print("Executing: Playback Jump to End")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # End key to jump to end
+            windll.user32.keybd_event(win32con.VK_END, 0, 0, 0)
+            windll.user32.keybd_event(win32con.VK_END, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_JUMP_TO_END executed"
+        else:
+            return "PLAYBACK_JUMP_TO_END failed - no browser found"
+    
+    def playback_next_video(self):
+        """Next video in playlist (Shift+N)"""
+        print("Executing: Playback Next Video")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Shift+N for next video (YouTube standard)
+            windll.user32.keybd_event(win32con.VK_SHIFT, 0, 0, 0)
+            windll.user32.keybd_event(ord('N'), 0, 0, 0)
+            windll.user32.keybd_event(ord('N'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_SHIFT, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_NEXT_VIDEO executed"
+        else:
+            return "PLAYBACK_NEXT_VIDEO failed - no browser found"
+    
+    def playback_previous_video(self):
+        """Previous video in playlist (Shift+P)"""
+        print("Executing: Playback Previous Video")
+        browser_windows = self.find_browser_windows()
+        
+        if browser_windows:
+            hwnd = browser_windows[0][0]
+            win32gui.SetForegroundWindow(hwnd)
+            time.sleep(0.1)
+            # Shift+P for previous video (YouTube standard)
+            windll.user32.keybd_event(win32con.VK_SHIFT, 0, 0, 0)
+            windll.user32.keybd_event(ord('P'), 0, 0, 0)
+            windll.user32.keybd_event(ord('P'), 0, win32con.KEYEVENTF_KEYUP, 0)
+            windll.user32.keybd_event(win32con.VK_SHIFT, 0, win32con.KEYEVENTF_KEYUP, 0)
+            return "PLAYBACK_PREVIOUS_VIDEO executed"
+        else:
+            return "PLAYBACK_PREVIOUS_VIDEO failed - no browser found"
 
 def main():
     parser = argparse.ArgumentParser(description='PC Controller - Windows Companion Script')
@@ -409,6 +605,20 @@ def main():
         'BROWSER_HOME': controller.browser_home,
         'BROWSER_OPEN_YOUTUBE': controller.browser_open_youtube,
         'BROWSER_OPEN_HULU': controller.browser_open_hulu,
+        # Playback Control Commands
+        'PLAYBACK_PLAY': controller.playback_play,
+        'PLAYBACK_PAUSE': controller.playback_pause,
+        'PLAYBACK_PLAY_PAUSE': controller.playback_play_pause,
+        'PLAYBACK_STOP': controller.playback_stop,
+        'PLAYBACK_RESTART': controller.playback_restart,
+        'PLAYBACK_SEEK_FORWARD_SMALL': controller.playback_seek_forward_small,
+        'PLAYBACK_SEEK_BACKWARD_SMALL': controller.playback_seek_backward_small,
+        'PLAYBACK_SEEK_FORWARD_LARGE': controller.playback_seek_forward_large,
+        'PLAYBACK_SEEK_BACKWARD_LARGE': controller.playback_seek_backward_large,
+        'PLAYBACK_JUMP_TO_BEGINNING': controller.playback_jump_to_beginning,
+        'PLAYBACK_JUMP_TO_END': controller.playback_jump_to_end,
+        'PLAYBACK_NEXT_VIDEO': controller.playback_next_video,
+        'PLAYBACK_PREVIOUS_VIDEO': controller.playback_previous_video,
     }
     
     print(f"PC Controller starting...")

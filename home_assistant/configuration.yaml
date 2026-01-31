@@ -97,6 +97,59 @@ rest_command:
   browser_open_hulu:
     url: "http://esp32-pc-controller.local/browser/open-hulu"
     method: POST
+  
+  # Playback Control commands (Universal - works on YouTube, Netflix, Hulu, Prime Video, etc.)
+  playback_play:
+    url: "http://esp32-pc-controller.local/playback/play"
+    method: POST
+  
+  playback_pause:
+    url: "http://esp32-pc-controller.local/playback/pause"
+    method: POST
+  
+  playback_play_pause:
+    url: "http://esp32-pc-controller.local/playback/play-pause"
+    method: POST
+  
+  playback_stop:
+    url: "http://esp32-pc-controller.local/playback/stop"
+    method: POST
+  
+  playback_restart:
+    url: "http://esp32-pc-controller.local/playback/restart"
+    method: POST
+  
+  playback_seek_forward_small:
+    url: "http://esp32-pc-controller.local/playback/seek-forward-small"
+    method: POST
+  
+  playback_seek_backward_small:
+    url: "http://esp32-pc-controller.local/playback/seek-backward-small"
+    method: POST
+  
+  playback_seek_forward_large:
+    url: "http://esp32-pc-controller.local/playback/seek-forward-large"
+    method: POST
+  
+  playback_seek_backward_large:
+    url: "http://esp32-pc-controller.local/playback/seek-backward-large"
+    method: POST
+  
+  playback_jump_to_beginning:
+    url: "http://esp32-pc-controller.local/playback/jump-to-beginning"
+    method: POST
+  
+  playback_jump_to_end:
+    url: "http://esp32-pc-controller.local/playback/jump-to-end"
+    method: POST
+  
+  playback_next_video:
+    url: "http://esp32-pc-controller.local/playback/next-video"
+    method: POST
+  
+  playback_previous_video:
+    url: "http://esp32-pc-controller.local/playback/previous-video"
+    method: POST
 
 # Sensor to monitor ESP32 status
 sensor:
@@ -250,6 +303,85 @@ button:
         icon_template: mdi:television-play
         action:
           - action: rest_command.browser_open_hulu
+      
+      # Playback Control buttons (Universal - works on YouTube, Netflix, Hulu, Prime Video, etc.)
+      playback_play_button:
+        friendly_name: "Play Video"
+        icon_template: mdi:play
+        action:
+          - action: rest_command.playback_play
+      
+      playback_pause_button:
+        friendly_name: "Pause Video"
+        icon_template: mdi:pause
+        action:
+          - action: rest_command.playback_pause
+      
+      playback_play_pause_button:
+        friendly_name: "Play/Pause Toggle"
+        icon_template: mdi:play-pause
+        action:
+          - action: rest_command.playback_play_pause
+      
+      playback_stop_button:
+        friendly_name: "Stop Video"
+        icon_template: mdi:stop
+        action:
+          - action: rest_command.playback_stop
+      
+      playback_restart_button:
+        friendly_name: "Restart Video"
+        icon_template: mdi:restart
+        action:
+          - action: rest_command.playback_restart
+      
+      playback_seek_forward_small_button:
+        friendly_name: "Seek +5s"
+        icon_template: mdi:fast-forward-5
+        action:
+          - action: rest_command.playback_seek_forward_small
+      
+      playback_seek_backward_small_button:
+        friendly_name: "Seek -5s"
+        icon_template: mdi:rewind-5
+        action:
+          - action: rest_command.playback_seek_backward_small
+      
+      playback_seek_forward_large_button:
+        friendly_name: "Seek +10s"
+        icon_template: mdi:fast-forward-10
+        action:
+          - action: rest_command.playback_seek_forward_large
+      
+      playback_seek_backward_large_button:
+        friendly_name: "Seek -10s"
+        icon_template: mdi:rewind-10
+        action:
+          - action: rest_command.playback_seek_backward_large
+      
+      playback_jump_to_beginning_button:
+        friendly_name: "Jump to Beginning"
+        icon_template: mdi:skip-previous
+        action:
+          - action: rest_command.playback_jump_to_beginning
+      
+      playback_jump_to_end_button:
+        friendly_name: "Jump to End"
+        icon_template: mdi:skip-next
+        action:
+          - action: rest_command.playback_jump_to_end
+      
+      playback_next_video_button:
+        friendly_name: "Next Video"
+        icon_template: mdi:skip-forward
+        action:
+          - action: rest_command.playback_next_video
+      
+      playback_previous_video_button:
+        friendly_name: "Previous Video"
+        icon_template: mdi:skip-backward
+        action:
+          - action: rest_command.playback_previous_video
 
 # Optional: Create a dashboard card
 # Add this to your Lovelace dashboard:
@@ -279,6 +411,17 @@ button:
 #   - button.browser_home_button
 #   - button.browser_open_youtube_button
 #   - button.browser_open_hulu_button
+#   - button.playback_play_pause_button
+#   - button.playback_stop_button
+#   - button.playback_restart_button
+#   - button.playback_seek_forward_small_button
+#   - button.playback_seek_backward_small_button
+#   - button.playback_seek_forward_large_button
+#   - button.playback_seek_backward_large_button
+#   - button.playback_jump_to_beginning_button
+#   - button.playback_jump_to_end_button
+#   - button.playback_next_video_button
+#   - button.playback_previous_video_button
 #   - sensor.pc_controller_status
 #
 # Example: Open a custom URL

@@ -31,6 +31,22 @@ A complete system that allows you to control your Windows PC and browser through
 - **Open Hulu** - Open Hulu in default browser
 - **Open URL** - Open any specific URL
 
+### Playback Control (Universal)
+Works on YouTube, Hulu, Netflix, Prime Video, and other streaming platforms:
+- **Play** - Play video
+- **Pause** - Pause video
+- **Toggle Play/Pause** - Toggle between play and pause
+- **Stop** - Stop video (pause + exit fullscreen)
+- **Restart Video** - Jump to beginning and restart
+- **Seek Forward (Small)** - Seek forward 5 seconds
+- **Seek Backward (Small)** - Seek backward 5 seconds
+- **Seek Forward (Large)** - Seek forward 10 seconds
+- **Seek Backward (Large)** - Seek backward 10 seconds
+- **Jump to Beginning** - Jump to start of video
+- **Jump to End** - Jump to end of video
+- **Next Video** - Next video in playlist/autoplay
+- **Previous Video** - Previous video in playlist
+
 ## Hardware Requirements
 
 - ESP32 development board (any variant)
@@ -191,6 +207,19 @@ curl -X POST -d "url=https://www.netflix.com" http://esp32-pc-controller.local/b
 | `/browser/open-url` | POST | Open specific URL (param: `url`) |
 | `/browser/open-youtube` | POST | Open YouTube |
 | `/browser/open-hulu` | POST | Open Hulu |
+| `/playback/play` | POST | Play video |
+| `/playback/pause` | POST | Pause video |
+| `/playback/play-pause` | POST | Toggle play/pause |
+| `/playback/stop` | POST | Stop video (pause + exit fullscreen) |
+| `/playback/restart` | POST | Restart video from beginning |
+| `/playback/seek-forward-small` | POST | Seek forward 5 seconds |
+| `/playback/seek-backward-small` | POST | Seek backward 5 seconds |
+| `/playback/seek-forward-large` | POST | Seek forward 10 seconds |
+| `/playback/seek-backward-large` | POST | Seek backward 10 seconds |
+| `/playback/jump-to-beginning` | POST | Jump to video start |
+| `/playback/jump-to-end` | POST | Jump to video end |
+| `/playback/next-video` | POST | Next video in playlist |
+| `/playback/previous-video` | POST | Previous video in playlist |
 | `/command` | POST | Send custom command (param: `cmd`) |
 
 ## Architecture

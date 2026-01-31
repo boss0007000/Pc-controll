@@ -32,6 +32,19 @@
  * - BROWSER_OPEN_URL: Open a specific URL
  * - BROWSER_OPEN_YOUTUBE: Open YouTube
  * - BROWSER_OPEN_HULU: Open Hulu
+ * - PLAYBACK_PLAY: Play video
+ * - PLAYBACK_PAUSE: Pause video
+ * - PLAYBACK_PLAY_PAUSE: Toggle play/pause
+ * - PLAYBACK_STOP: Stop video (pause + exit fullscreen)
+ * - PLAYBACK_RESTART: Restart video from beginning
+ * - PLAYBACK_SEEK_FORWARD_SMALL: Seek forward 5 seconds
+ * - PLAYBACK_SEEK_BACKWARD_SMALL: Seek backward 5 seconds
+ * - PLAYBACK_SEEK_FORWARD_LARGE: Seek forward 10 seconds
+ * - PLAYBACK_SEEK_BACKWARD_LARGE: Seek backward 10 seconds
+ * - PLAYBACK_JUMP_TO_BEGINNING: Jump to video start
+ * - PLAYBACK_JUMP_TO_END: Jump to video end
+ * - PLAYBACK_NEXT_VIDEO: Next video in playlist
+ * - PLAYBACK_PREVIOUS_VIDEO: Previous video in playlist
  */
 
 #include <WiFi.h>
@@ -269,6 +282,72 @@ void setupWebServer() {
   server.on("/browser/open-hulu", HTTP_POST, [](AsyncWebServerRequest *request) {
     executeCommand("BROWSER_OPEN_HULU");
     request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_OPEN_HULU\"}");
+  });
+  
+  // Playback Control endpoints (Universal - works on YouTube, Netflix, Hulu, Prime Video, etc.)
+  server.on("/playback/play", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_PLAY");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_PLAY\"}");
+  });
+  
+  server.on("/playback/pause", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_PAUSE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_PAUSE\"}");
+  });
+  
+  server.on("/playback/play-pause", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_PLAY_PAUSE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_PLAY_PAUSE\"}");
+  });
+  
+  server.on("/playback/stop", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_STOP");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_STOP\"}");
+  });
+  
+  server.on("/playback/restart", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_RESTART");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_RESTART\"}");
+  });
+  
+  server.on("/playback/seek-forward-small", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_SEEK_FORWARD_SMALL");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_SEEK_FORWARD_SMALL\"}");
+  });
+  
+  server.on("/playback/seek-backward-small", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_SEEK_BACKWARD_SMALL");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_SEEK_BACKWARD_SMALL\"}");
+  });
+  
+  server.on("/playback/seek-forward-large", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_SEEK_FORWARD_LARGE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_SEEK_FORWARD_LARGE\"}");
+  });
+  
+  server.on("/playback/seek-backward-large", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_SEEK_BACKWARD_LARGE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_SEEK_BACKWARD_LARGE\"}");
+  });
+  
+  server.on("/playback/jump-to-beginning", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_JUMP_TO_BEGINNING");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_JUMP_TO_BEGINNING\"}");
+  });
+  
+  server.on("/playback/jump-to-end", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_JUMP_TO_END");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_JUMP_TO_END\"}");
+  });
+  
+  server.on("/playback/next-video", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_NEXT_VIDEO");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_NEXT_VIDEO\"}");
+  });
+  
+  server.on("/playback/previous-video", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PLAYBACK_PREVIOUS_VIDEO");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_PREVIOUS_VIDEO\"}");
   });
   
   // Generic command endpoint
