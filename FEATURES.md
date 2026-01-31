@@ -42,6 +42,22 @@
 - **Open Hulu** - Quick access to Hulu
 - **Open Custom Sites** - Configurable for any website
 
+### ✅ Playback Control (Universal)
+Works seamlessly on YouTube, Netflix, Hulu, Prime Video, Disney+, and other streaming platforms:
+- **Play** - Start video playback
+- **Pause** - Pause video playback
+- **Toggle Play/Pause** - Switch between play and pause states
+- **Stop** - Stop playback and exit fullscreen
+- **Restart** - Jump to beginning and restart video
+- **Seek Forward (Small)** - Skip ahead 5 seconds
+- **Seek Backward (Small)** - Skip back 5 seconds
+- **Seek Forward (Large)** - Skip ahead 10 seconds
+- **Seek Backward (Large)** - Skip back 10 seconds
+- **Jump to Beginning** - Instant jump to video start
+- **Jump to End** - Instant jump to video end
+- **Next Video** - Play next video in playlist/queue
+- **Previous Video** - Play previous video in playlist
+
 ### ✅ Home Assistant Integration
 - REST API endpoints for all commands
 - Button entities for dashboard control
@@ -96,10 +112,18 @@ Movie Mode:
   - Maximize for full-screen
   - Perfect for streaming
 
+Video Playback:
+  - Play/pause with one command
+  - Seek forward/backward
+  - Jump to beginning or end
+  - Navigate playlists
+  - Stop and exit fullscreen
+  
 Quick Access:
   - Open YouTube with one click
   - Open Hulu for shows
-  - Open any streaming site via URL
+  - Open Netflix/Prime/Disney+ via URL
+  - Control playback universally
   - Navigate with tab controls
 ```
 

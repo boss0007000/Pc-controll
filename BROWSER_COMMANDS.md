@@ -139,7 +139,225 @@ curl -X POST http://esp32-pc-controller.local/browser/open-hulu
 service: rest_command.browser_open_hulu
 ```
 
+## Playback Control (Universal)
+
+These commands work universally across YouTube, Netflix, Hulu, Prime Video, Disney+, and other streaming platforms.
+
+### Play Video
+Start video playback.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/play
+
+# Home Assistant
+service: rest_command.playback_play
+```
+
+### Pause Video
+Pause video playback.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/pause
+
+# Home Assistant
+service: rest_command.playback_pause
+```
+
+### Toggle Play/Pause
+Toggle between play and pause states.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/play-pause
+
+# Home Assistant
+service: rest_command.playback_play_pause
+```
+
+### Stop Video
+Stop video playback and exit fullscreen.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/stop
+
+# Home Assistant
+service: rest_command.playback_stop
+```
+
+### Restart Video
+Restart video from the beginning.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/restart
+
+# Home Assistant
+service: rest_command.playback_restart
+```
+
+### Seek Forward (Small)
+Seek forward 5 seconds.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/seek-forward-small
+
+# Home Assistant
+service: rest_command.playback_seek_forward_small
+```
+
+### Seek Backward (Small)
+Seek backward 5 seconds.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/seek-backward-small
+
+# Home Assistant
+service: rest_command.playback_seek_backward_small
+```
+
+### Seek Forward (Large)
+Seek forward 10 seconds.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/seek-forward-large
+
+# Home Assistant
+service: rest_command.playback_seek_forward_large
+```
+
+### Seek Backward (Large)
+Seek backward 10 seconds.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/seek-backward-large
+
+# Home Assistant
+service: rest_command.playback_seek_backward_large
+```
+
+### Jump to Beginning
+Jump to the start of the video.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/jump-to-beginning
+
+# Home Assistant
+service: rest_command.playback_jump_to_beginning
+```
+
+### Jump to End
+Jump to the end of the video.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/jump-to-end
+
+# Home Assistant
+service: rest_command.playback_jump_to_end
+```
+
+### Next Video
+Play the next video in playlist or autoplay queue.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/next-video
+
+# Home Assistant
+service: rest_command.playback_next_video
+```
+
+### Previous Video
+Play the previous video in playlist.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/playback/previous-video
+
+# Home Assistant
+service: rest_command.playback_previous_video
+```
+
 ## Common Use Cases
+
+### Video Streaming Control
+```yaml
+automation:
+  - alias: "Media Center Mode - YouTube"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.media_mode
+        to: 'on'
+    action:
+      # Open YouTube and maximize
+      - service: rest_command.browser_open_youtube
+      - delay:
+          seconds: 3
+      - service: rest_command.browser_maximize
+      - service: rest_command.browser_move_tv
+      
+  - alias: "Video Remote - Play/Pause"
+    trigger:
+      - platform: event
+        event_type: remote_button_press
+        event_data:
+          button: play_pause
+    action:
+      - service: rest_command.playback_play_pause
+      
+  - alias: "Video Remote - Skip Forward"
+    trigger:
+      - platform: event
+        event_type: remote_button_press
+        event_data:
+          button: forward
+    action:
+      - service: rest_command.playback_seek_forward_large
+      
+  - alias: "Video Remote - Skip Backward"
+    trigger:
+      - platform: event
+        event_type: remote_button_press
+        event_data:
+          button: backward
+    action:
+      - service: rest_command.playback_seek_backward_large
+```
+
+### Voice Control for Streaming
+```yaml
+automation:
+  - alias: "Voice - Play Video"
+    trigger:
+      - platform: conversation
+        command:
+          - "play video"
+          - "play"
+    action:
+      - service: rest_command.playback_play
+  
+  - alias: "Voice - Pause Video"
+    trigger:
+      - platform: conversation
+        command:
+          - "pause video"
+          - "pause"
+    action:
+      - service: rest_command.playback_pause
+  
+  - alias: "Voice - Next Video"
+    trigger:
+      - platform: conversation
+        command:
+          - "next video"
+          - "skip video"
+    action:
+      - service: rest_command.playback_next_video
+  
+  - alias: "Voice - Restart Video"
+    trigger:
+      - platform: conversation
+        command:
+          - "restart video"
+          - "start over"
+    action:
+      - service: rest_command.playback_restart
+```
 
 ### Morning Routine - Open Multiple Sites
 ```yaml
@@ -282,6 +500,19 @@ BROWSER_HOME
 BROWSER_OPEN_URL:https://www.example.com
 BROWSER_OPEN_YOUTUBE
 BROWSER_OPEN_HULU
+PLAYBACK_PLAY
+PLAYBACK_PAUSE
+PLAYBACK_PLAY_PAUSE
+PLAYBACK_STOP
+PLAYBACK_RESTART
+PLAYBACK_SEEK_FORWARD_SMALL
+PLAYBACK_SEEK_BACKWARD_SMALL
+PLAYBACK_SEEK_FORWARD_LARGE
+PLAYBACK_SEEK_BACKWARD_LARGE
+PLAYBACK_JUMP_TO_BEGINNING
+PLAYBACK_JUMP_TO_END
+PLAYBACK_NEXT_VIDEO
+PLAYBACK_PREVIOUS_VIDEO
 ```
 
 ## Supported Browsers
@@ -301,3 +532,27 @@ To add more browsers, edit the `browser_process_names` list in `pc_controller.py
 - Browser launching commands will fail if the browser is not installed
 - Small delays (0.1-2 seconds) between commands are recommended for reliability
 - All keyboard shortcuts are standard across major browsers
+
+### Playback Controls Compatibility
+
+The playback control commands use universal keyboard shortcuts that work across all major streaming platforms:
+
+**Fully Supported Platforms:**
+- YouTube (all features including playlist navigation)
+- Netflix (play/pause, seek, fullscreen controls)
+- Hulu (play/pause, seek, fullscreen controls)
+- Amazon Prime Video (play/pause, seek, fullscreen controls)
+- Disney+ (play/pause, seek, fullscreen controls)
+- HBO Max (play/pause, seek, fullscreen controls)
+- Twitch (play/pause, seek controls)
+- Vimeo (play/pause, seek controls)
+
+**Key Mappings:**
+- Play/Pause: Spacebar (universal)
+- Seek ±5s: Arrow keys (universal)
+- Seek ±10s: J/L keys (YouTube), Arrow keys (others)
+- Jump to start/end: Home/End keys (universal)
+- Next/Previous: Shift+N/P (YouTube), varies by platform
+- Stop/Exit fullscreen: Escape (universal)
+
+Some platform-specific features (like Next/Previous video) may work best on YouTube but are compatible with most platforms that support playlists or autoplay.
