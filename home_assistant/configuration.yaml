@@ -150,6 +150,99 @@ rest_command:
   playback_previous_video:
     url: "http://esp32-pc-controller.local/playback/previous-video"
     method: POST
+  
+  # Fullscreen & View Mode commands
+  fullscreen_enter:
+    url: "http://esp32-pc-controller.local/fullscreen/enter"
+    method: POST
+  
+  fullscreen_exit:
+    url: "http://esp32-pc-controller.local/fullscreen/exit"
+    method: POST
+  
+  fullscreen_toggle:
+    url: "http://esp32-pc-controller.local/fullscreen/toggle"
+    method: POST
+  
+  theater_mode:
+    url: "http://esp32-pc-controller.local/theater-mode"
+    method: POST
+  
+  theater_mode_exit:
+    url: "http://esp32-pc-controller.local/theater-mode/exit"
+    method: POST
+  
+  picture_in_picture_enter:
+    url: "http://esp32-pc-controller.local/picture-in-picture/enter"
+    method: POST
+  
+  picture_in_picture_exit:
+    url: "http://esp32-pc-controller.local/picture-in-picture/exit"
+    method: POST
+  
+  # Audio Control commands
+  audio_volume_up:
+    url: "http://esp32-pc-controller.local/audio/volume-up"
+    method: POST
+  
+  audio_volume_down:
+    url: "http://esp32-pc-controller.local/audio/volume-down"
+    method: POST
+  
+  audio_mute:
+    url: "http://esp32-pc-controller.local/audio/mute"
+    method: POST
+  
+  audio_unmute:
+    url: "http://esp32-pc-controller.local/audio/unmute"
+    method: POST
+  
+  audio_toggle_mute:
+    url: "http://esp32-pc-controller.local/audio/toggle-mute"
+    method: POST
+  
+  audio_volume_set:
+    url: "http://esp32-pc-controller.local/audio/volume-set"
+    method: POST
+    payload: "level={{ level }}"
+    content_type: "application/x-www-form-urlencoded"
+  
+  audio_browser_tab_mute:
+    url: "http://esp32-pc-controller.local/audio/browser-tab-mute"
+    method: POST
+  
+  audio_browser_tab_unmute:
+    url: "http://esp32-pc-controller.local/audio/browser-tab-unmute"
+    method: POST
+  
+  audio_system_mute_all:
+    url: "http://esp32-pc-controller.local/audio/system-mute-all"
+    method: POST
+  
+  audio_system_audio_restore:
+    url: "http://esp32-pc-controller.local/audio/system-audio-restore"
+    method: POST
+  
+  # Subtitles/Captions commands
+  captions_toggle_on:
+    url: "http://esp32-pc-controller.local/captions/toggle-on"
+    method: POST
+  
+  captions_toggle_off:
+    url: "http://esp32-pc-controller.local/captions/toggle-off"
+    method: POST
+  
+  captions_cycle_language:
+    url: "http://esp32-pc-controller.local/captions/cycle-language"
+    method: POST
+  
+  captions_size_increase:
+    url: "http://esp32-pc-controller.local/captions/size-increase"
+    method: POST
+  
+  captions_size_decrease:
+    url: "http://esp32-pc-controller.local/captions/size-decrease"
+    method: POST
 
 # Sensor to monitor ESP32 status
 sensor:
@@ -382,6 +475,167 @@ button:
         icon_template: mdi:skip-backward
         action:
           - action: rest_command.playback_previous_video
+      
+      # Fullscreen & View Mode buttons
+      fullscreen_enter_button:
+        friendly_name: "Enter Fullscreen"
+        icon_template: mdi:fullscreen
+        action:
+          - action: rest_command.fullscreen_enter
+      
+      fullscreen_exit_button:
+        friendly_name: "Exit Fullscreen"
+        icon_template: mdi:fullscreen-exit
+        action:
+          - action: rest_command.fullscreen_exit
+      
+      fullscreen_toggle_button:
+        friendly_name: "Toggle Fullscreen"
+        icon_template: mdi:fit-to-screen
+        action:
+          - action: rest_command.fullscreen_toggle
+      
+      theater_mode_button:
+        friendly_name: "Theater Mode"
+        icon_template: mdi:theater
+        action:
+          - action: rest_command.theater_mode
+      
+      theater_mode_exit_button:
+        friendly_name: "Exit Theater Mode"
+        icon_template: mdi:overscan
+        action:
+          - action: rest_command.theater_mode_exit
+      
+      picture_in_picture_enter_button:
+        friendly_name: "Enter Picture-in-Picture"
+        icon_template: mdi:picture-in-picture-top-right
+        action:
+          - action: rest_command.picture_in_picture_enter
+      
+      picture_in_picture_exit_button:
+        friendly_name: "Exit Picture-in-Picture"
+        icon_template: mdi:picture-in-picture-bottom-right-outline
+        action:
+          - action: rest_command.picture_in_picture_exit
+      
+      # Audio Control buttons
+      audio_volume_up_button:
+        friendly_name: "Volume Up"
+        icon_template: mdi:volume-plus
+        action:
+          - action: rest_command.audio_volume_up
+      
+      audio_volume_down_button:
+        friendly_name: "Volume Down"
+        icon_template: mdi:volume-minus
+        action:
+          - action: rest_command.audio_volume_down
+      
+      audio_mute_button:
+        friendly_name: "Mute Audio"
+        icon_template: mdi:volume-mute
+        action:
+          - action: rest_command.audio_mute
+      
+      audio_unmute_button:
+        friendly_name: "Unmute Audio"
+        icon_template: mdi:volume-high
+        action:
+          - action: rest_command.audio_unmute
+      
+      audio_toggle_mute_button:
+        friendly_name: "Toggle Mute"
+        icon_template: mdi:volume-off
+        action:
+          - action: rest_command.audio_toggle_mute
+      
+      audio_volume_25_button:
+        friendly_name: "Volume 25%"
+        icon_template: mdi:volume-low
+        action:
+          - action: rest_command.audio_volume_set
+            data:
+              level: 25
+      
+      audio_volume_50_button:
+        friendly_name: "Volume 50%"
+        icon_template: mdi:volume-medium
+        action:
+          - action: rest_command.audio_volume_set
+            data:
+              level: 50
+      
+      audio_volume_75_button:
+        friendly_name: "Volume 75%"
+        icon_template: mdi:volume-high
+        action:
+          - action: rest_command.audio_volume_set
+            data:
+              level: 75
+      
+      audio_volume_100_button:
+        friendly_name: "Volume 100%"
+        icon_template: mdi:volume-high
+        action:
+          - action: rest_command.audio_volume_set
+            data:
+              level: 100
+      
+      audio_browser_tab_mute_button:
+        friendly_name: "Mute Browser Tab"
+        icon_template: mdi:tab-minus
+        action:
+          - action: rest_command.audio_browser_tab_mute
+      
+      audio_browser_tab_unmute_button:
+        friendly_name: "Unmute Browser Tab"
+        icon_template: mdi:tab-plus
+        action:
+          - action: rest_command.audio_browser_tab_unmute
+      
+      audio_system_mute_all_button:
+        friendly_name: "Mute System Audio"
+        icon_template: mdi:volume-variant-off
+        action:
+          - action: rest_command.audio_system_mute_all
+      
+      audio_system_audio_restore_button:
+        friendly_name: "Restore System Audio"
+        icon_template: mdi:volume-source
+        action:
+          - action: rest_command.audio_system_audio_restore
+      
+      # Subtitles/Captions buttons
+      captions_toggle_on_button:
+        friendly_name: "Captions On"
+        icon_template: mdi:closed-caption
+        action:
+          - action: rest_command.captions_toggle_on
+      
+      captions_toggle_off_button:
+        friendly_name: "Captions Off"
+        icon_template: mdi:closed-caption-outline
+        action:
+          - action: rest_command.captions_toggle_off
+      
+      captions_cycle_language_button:
+        friendly_name: "Cycle Caption Language"
+        icon_template: mdi:translate
+        action:
+          - action: rest_command.captions_cycle_language
+      
+      captions_size_increase_button:
+        friendly_name: "Increase Caption Size"
+        icon_template: mdi:format-size
+        action:
+          - action: rest_command.captions_size_increase
+      
+      captions_size_decrease_button:
+        friendly_name: "Decrease Caption Size"
+        icon_template: mdi:format-letter-case
+        action:
+          - action: rest_command.captions_size_decrease
 
 # Optional: Create a dashboard card
 # Add this to your Lovelace dashboard:

@@ -45,6 +45,28 @@
  * - PLAYBACK_JUMP_TO_END: Jump to video end
  * - PLAYBACK_NEXT_VIDEO: Next video in playlist
  * - PLAYBACK_PREVIOUS_VIDEO: Previous video in playlist
+ * - FULLSCREEN_ENTER: Enter fullscreen mode
+ * - FULLSCREEN_EXIT: Exit fullscreen mode
+ * - FULLSCREEN_TOGGLE: Toggle fullscreen mode
+ * - THEATER_MODE: Enter theater mode (YouTube)
+ * - THEATER_MODE_EXIT: Exit theater mode
+ * - PICTURE_IN_PICTURE_ENTER: Enter picture-in-picture mode
+ * - PICTURE_IN_PICTURE_EXIT: Exit picture-in-picture mode
+ * - VOLUME_UP: Increase system volume
+ * - VOLUME_DOWN: Decrease system volume
+ * - MUTE_AUDIO: Mute system audio
+ * - UNMUTE_AUDIO: Unmute system audio
+ * - TOGGLE_MUTE: Toggle mute/unmute
+ * - VOLUME_SET: Set volume to specific level (25, 50, 75, 100)
+ * - BROWSER_TAB_MUTE: Mute browser tab
+ * - BROWSER_TAB_UNMUTE: Unmute browser tab
+ * - SYSTEM_MUTE_ALL: Mute all system audio
+ * - SYSTEM_AUDIO_RESTORE: Restore system audio
+ * - CAPTIONS_TOGGLE_ON: Toggle captions on
+ * - CAPTIONS_TOGGLE_OFF: Toggle captions off
+ * - CAPTIONS_CYCLE_LANGUAGE: Cycle caption languages
+ * - CAPTIONS_SIZE_INCREASE: Increase caption size
+ * - CAPTIONS_SIZE_DECREASE: Decrease caption size
  */
 
 #include <WiFi.h>
@@ -348,6 +370,125 @@ void setupWebServer() {
   server.on("/playback/previous-video", HTTP_POST, [](AsyncWebServerRequest *request) {
     executeCommand("PLAYBACK_PREVIOUS_VIDEO");
     request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PLAYBACK_PREVIOUS_VIDEO\"}");
+  });
+  
+  // Fullscreen & View Mode endpoints
+  server.on("/fullscreen/enter", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("FULLSCREEN_ENTER");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"FULLSCREEN_ENTER\"}");
+  });
+  
+  server.on("/fullscreen/exit", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("FULLSCREEN_EXIT");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"FULLSCREEN_EXIT\"}");
+  });
+  
+  server.on("/fullscreen/toggle", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("FULLSCREEN_TOGGLE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"FULLSCREEN_TOGGLE\"}");
+  });
+  
+  server.on("/theater-mode", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("THEATER_MODE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"THEATER_MODE\"}");
+  });
+  
+  server.on("/theater-mode/exit", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("THEATER_MODE_EXIT");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"THEATER_MODE_EXIT\"}");
+  });
+  
+  server.on("/picture-in-picture/enter", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PICTURE_IN_PICTURE_ENTER");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PICTURE_IN_PICTURE_ENTER\"}");
+  });
+  
+  server.on("/picture-in-picture/exit", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("PICTURE_IN_PICTURE_EXIT");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"PICTURE_IN_PICTURE_EXIT\"}");
+  });
+  
+  // Audio Control endpoints
+  server.on("/audio/volume-up", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("VOLUME_UP");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"VOLUME_UP\"}");
+  });
+  
+  server.on("/audio/volume-down", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("VOLUME_DOWN");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"VOLUME_DOWN\"}");
+  });
+  
+  server.on("/audio/mute", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("MUTE_AUDIO");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"MUTE_AUDIO\"}");
+  });
+  
+  server.on("/audio/unmute", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("UNMUTE_AUDIO");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"UNMUTE_AUDIO\"}");
+  });
+  
+  server.on("/audio/toggle-mute", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("TOGGLE_MUTE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"TOGGLE_MUTE\"}");
+  });
+  
+  server.on("/audio/volume-set", HTTP_POST, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("level", true)) {
+      String level = request->getParam("level", true)->value();
+      String cmd = "VOLUME_SET:" + level;
+      executeCommand(cmd);
+      request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"VOLUME_SET\",\"level\":\"" + level + "\"}");
+    } else {
+      request->send(400, "application/json", "{\"status\":\"error\",\"message\":\"Missing level parameter\"}");
+    }
+  });
+  
+  server.on("/audio/browser-tab-mute", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_TAB_MUTE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_TAB_MUTE\"}");
+  });
+  
+  server.on("/audio/browser-tab-unmute", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("BROWSER_TAB_UNMUTE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"BROWSER_TAB_UNMUTE\"}");
+  });
+  
+  server.on("/audio/system-mute-all", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SYSTEM_MUTE_ALL");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SYSTEM_MUTE_ALL\"}");
+  });
+  
+  server.on("/audio/system-audio-restore", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("SYSTEM_AUDIO_RESTORE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"SYSTEM_AUDIO_RESTORE\"}");
+  });
+  
+  // Subtitles/Captions endpoints
+  server.on("/captions/toggle-on", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("CAPTIONS_TOGGLE_ON");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"CAPTIONS_TOGGLE_ON\"}");
+  });
+  
+  server.on("/captions/toggle-off", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("CAPTIONS_TOGGLE_OFF");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"CAPTIONS_TOGGLE_OFF\"}");
+  });
+  
+  server.on("/captions/cycle-language", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("CAPTIONS_CYCLE_LANGUAGE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"CAPTIONS_CYCLE_LANGUAGE\"}");
+  });
+  
+  server.on("/captions/size-increase", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("CAPTIONS_SIZE_INCREASE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"CAPTIONS_SIZE_INCREASE\"}");
+  });
+  
+  server.on("/captions/size-decrease", HTTP_POST, [](AsyncWebServerRequest *request) {
+    executeCommand("CAPTIONS_SIZE_DECREASE");
+    request->send(200, "application/json", "{\"status\":\"ok\",\"command\":\"CAPTIONS_SIZE_DECREASE\"}");
   });
   
   // Generic command endpoint
