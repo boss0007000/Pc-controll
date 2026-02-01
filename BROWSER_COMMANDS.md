@@ -849,6 +849,42 @@ CAPTIONS_TOGGLE_OFF
 CAPTIONS_CYCLE_LANGUAGE
 CAPTIONS_SIZE_INCREASE
 CAPTIONS_SIZE_DECREASE
+NAV_SELECT_ELEMENT
+NAV_BACK
+NAV_FORWARD
+NAV_EXIT_MENU
+NAV_SCROLL_UP
+NAV_SCROLL_DOWN
+NAV_PAGE_UP
+NAV_PAGE_DOWN
+NAV_FOCUS_SEARCH
+NAV_CLEAR_SEARCH
+NAV_SUBMIT_SEARCH
+NAV_TAB_FORWARD
+SEARCH_YOUTUBE:query text here
+SEARCH_HULU:query text here
+SEARCH_CURRENT_SITE
+OPEN_YOUTUBE_TRENDING
+OPEN_YOUTUBE_SUBSCRIPTIONS
+OPEN_HULU_WATCHLIST
+OPEN_YOUTUBE_HISTORY
+OPEN_NETFLIX_HOME
+YOUTUBE_LIKE
+YOUTUBE_DISLIKE
+YOUTUBE_SUBSCRIBE
+SKIP_BUTTON_ACTION
+BROWSER_MOVE_MONITOR_1
+BROWSER_MOVE_MONITOR_2
+FOCUS_ASSIST_ENABLE
+FOCUS_ASSIST_DISABLE
+PREVENT_SLEEP
+ALLOW_SLEEP
+SMART_SHOW_SOMETHING
+SMART_CONTINUE_LAST
+SMART_FIND_ELSE
+SMART_THATS_ENOUGH
+SMART_KILL_PLAYBACK
+SMART_EMERGENCY_MUTE
 ```
 
 ## Supported Browsers
@@ -901,3 +937,461 @@ The playback control commands use universal keyboard shortcuts that work across 
 - Mute video: M (YouTube and many platforms)
 
 Some platform-specific features (like Next/Previous video) may work best on YouTube but are compatible with most platforms that support playlists or autoplay.
+
+## Navigation Commands (Keyboard-Based)
+
+### Select Focused Element
+Press Enter to activate the currently focused element.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/select
+
+# Home Assistant
+service: rest_command.nav_select
+
+# Serial Command
+NAV_SELECT_ELEMENT
+```
+
+### Navigate Back
+Go back to previous page (Alt+Left).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/back
+
+# Home Assistant
+service: rest_command.nav_back
+
+# Serial Command
+NAV_BACK
+```
+
+### Navigate Forward
+Go forward to next page (Alt+Right).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/forward
+
+# Home Assistant
+service: rest_command.nav_forward
+
+# Serial Command
+NAV_FORWARD
+```
+
+### Exit Menu/Close Overlay
+Close menus and overlays with Escape key.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/exit-menu
+
+# Home Assistant
+service: rest_command.nav_exit_menu
+
+# Serial Command
+NAV_EXIT_MENU
+```
+
+### Scroll Up/Down
+Scroll page content with arrow keys.
+```bash
+# REST API - Scroll Up
+curl -X POST http://esp32-pc-controller.local/nav/scroll-up
+# REST API - Scroll Down
+curl -X POST http://esp32-pc-controller.local/nav/scroll-down
+
+# Home Assistant
+service: rest_command.nav_scroll_up
+service: rest_command.nav_scroll_down
+
+# Serial Commands
+NAV_SCROLL_UP
+NAV_SCROLL_DOWN
+```
+
+### Page Up/Down
+Quick page navigation with Page Up/Down keys.
+```bash
+# REST API - Page Up
+curl -X POST http://esp32-pc-controller.local/nav/page-up
+# REST API - Page Down
+curl -X POST http://esp32-pc-controller.local/nav/page-down
+
+# Home Assistant
+service: rest_command.nav_page_up
+service: rest_command.nav_page_down
+
+# Serial Commands
+NAV_PAGE_UP
+NAV_PAGE_DOWN
+```
+
+### Focus Search Bar
+Move focus to browser address/search bar (Ctrl+L).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/focus-search
+
+# Home Assistant
+service: rest_command.nav_focus_search
+
+# Serial Command
+NAV_FOCUS_SEARCH
+```
+
+### Clear Search Field
+Clear current text in focused field (Ctrl+A then Delete).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/clear-search
+
+# Home Assistant
+service: rest_command.nav_clear_search
+
+# Serial Command
+NAV_CLEAR_SEARCH
+```
+
+### Submit Search
+Submit search or form (Enter key).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/submit-search
+
+# Home Assistant
+service: rest_command.nav_submit_search
+
+# Serial Command
+NAV_SUBMIT_SEARCH
+```
+
+### Tab Forward
+Navigate between elements with Tab key.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/nav/tab-forward
+
+# Home Assistant
+service: rest_command.nav_tab_forward
+
+# Serial Command
+NAV_TAB_FORWARD
+```
+
+## Search & Content Discovery
+
+### Search YouTube
+Search YouTube for a specific query.
+```bash
+# REST API
+curl -X POST -d "query=funny cats" http://esp32-pc-controller.local/search/youtube
+
+# Serial Command
+SEARCH_YOUTUBE:funny cats
+```
+
+### Search Hulu
+Search Hulu for a specific query.
+```bash
+# REST API
+curl -X POST -d "query=action movies" http://esp32-pc-controller.local/search/hulu
+
+# Serial Command
+SEARCH_HULU:action movies
+```
+
+### Search Current Site
+Open find-in-page dialog (Ctrl+F).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/search/current-site
+
+# Home Assistant
+service: rest_command.search_current_site
+
+# Serial Command
+SEARCH_CURRENT_SITE
+```
+
+### Open YouTube Trending
+Navigate to YouTube trending page.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/content/youtube-trending
+
+# Home Assistant
+service: rest_command.content_youtube_trending
+
+# Serial Command
+OPEN_YOUTUBE_TRENDING
+```
+
+### Open YouTube Subscriptions
+Navigate to YouTube subscriptions feed.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/content/youtube-subscriptions
+
+# Home Assistant
+service: rest_command.content_youtube_subscriptions
+
+# Serial Command
+OPEN_YOUTUBE_SUBSCRIPTIONS
+```
+
+### Open Hulu Watchlist
+Navigate to Hulu "My Stuff" watchlist.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/content/hulu-watchlist
+
+# Home Assistant
+service: rest_command.content_hulu_watchlist
+
+# Serial Command
+OPEN_HULU_WATCHLIST
+```
+
+### Open YouTube History
+Navigate to YouTube watch history.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/content/youtube-history
+
+# Home Assistant
+service: rest_command.content_youtube_history
+
+# Serial Command
+OPEN_YOUTUBE_HISTORY
+```
+
+### Open Netflix Home
+Navigate to Netflix browse page.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/content/netflix-home
+
+# Home Assistant
+service: rest_command.content_netflix_home
+
+# Serial Command
+OPEN_NETFLIX_HOME
+```
+
+## User Interaction (Site-Specific)
+
+### Like Video (YouTube)
+Like the current video on YouTube (Shift+L).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/youtube/like
+
+# Home Assistant
+service: rest_command.youtube_like
+
+# Serial Command
+YOUTUBE_LIKE
+```
+
+### Dislike Video (YouTube)
+Dislike the current video on YouTube (Shift+D).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/youtube/dislike
+
+# Home Assistant
+service: rest_command.youtube_dislike
+
+# Serial Command
+YOUTUBE_DISLIKE
+```
+
+### Subscribe (YouTube)
+Subscribe to current channel on YouTube (Shift+S).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/youtube/subscribe
+
+# Home Assistant
+service: rest_command.youtube_subscribe
+
+# Serial Command
+YOUTUBE_SUBSCRIBE
+```
+
+### Skip Button Action
+Generic skip action for Skip Ad, Skip Intro, Skip Recap buttons (Tab navigation + Enter).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/action/skip
+
+# Home Assistant
+service: rest_command.action_skip
+
+# Serial Command
+SKIP_BUTTON_ACTION
+```
+
+## Multi-Monitor Control
+
+### Move Browser to Monitor 1
+Move browser window to primary monitor.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/browser/move-monitor-1
+
+# Home Assistant
+service: rest_command.browser_move_monitor_1
+
+# Serial Command
+BROWSER_MOVE_MONITOR_1
+```
+
+### Move Browser to Monitor 2
+Move browser window to secondary monitor (TV).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/browser/move-monitor-2
+
+# Home Assistant
+service: rest_command.browser_move_monitor_2
+
+# Serial Command
+BROWSER_MOVE_MONITOR_2
+```
+
+## Focus & Distraction Control
+
+### Enable Focus Assist
+Enable Windows Focus Assist (Do Not Disturb mode).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/focus/assist-enable
+
+# Home Assistant
+service: rest_command.focus_assist_enable
+
+# Serial Command
+FOCUS_ASSIST_ENABLE
+```
+
+### Disable Focus Assist
+Disable Windows Focus Assist.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/focus/assist-disable
+
+# Home Assistant
+service: rest_command.focus_assist_disable
+
+# Serial Command
+FOCUS_ASSIST_DISABLE
+```
+
+### Prevent Sleep
+Prevent screen from sleeping (keeps display active).
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/sleep/prevent
+
+# Home Assistant
+service: rest_command.sleep_prevent
+
+# Serial Command
+PREVENT_SLEEP
+```
+
+### Allow Sleep
+Allow screen to sleep normally.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/sleep/allow
+
+# Home Assistant
+service: rest_command.sleep_allow
+
+# Serial Command
+ALLOW_SLEEP
+```
+
+## Smart Convenience Commands
+
+These are convenient shortcuts that combine multiple actions.
+
+### Show Me Something
+Open homepage/feed - quick way to start browsing.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/smart/show-something
+
+# Home Assistant
+service: rest_command.smart_show_something
+
+# Serial Command
+SMART_SHOW_SOMETHING
+```
+
+### Continue Where I Left Off
+Resume last browser session with all tabs.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/smart/continue-last
+
+# Home Assistant
+service: rest_command.smart_continue_last
+
+# Serial Command
+SMART_CONTINUE_LAST
+```
+
+### Find Something Else
+Reload page to refresh recommendations.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/smart/find-else
+
+# Home Assistant
+service: rest_command.smart_find_else
+
+# Serial Command
+SMART_FIND_ELSE
+```
+
+### That's Enough
+Pause video and exit fullscreen - quick stop.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/smart/thats-enough
+
+# Home Assistant
+service: rest_command.smart_thats_enough
+
+# Serial Command
+SMART_THATS_ENOUGH
+```
+
+### Kill Playback
+Stop everything - pause, exit fullscreen, and minimize browser.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/smart/kill-playback
+
+# Home Assistant
+service: rest_command.smart_kill_playback
+
+# Serial Command
+SMART_KILL_PLAYBACK
+```
+
+### Emergency Mute
+Instantly mute all system audio.
+```bash
+# REST API
+curl -X POST http://esp32-pc-controller.local/smart/emergency-mute
+
+# Home Assistant
+service: rest_command.smart_emergency_mute
+
+# Serial Command
+SMART_EMERGENCY_MUTE
+```
